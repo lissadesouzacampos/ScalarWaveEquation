@@ -1,0 +1,2977 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 12.1' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[    117723,       2969]
+NotebookOptionsPosition[    111427,       2854]
+NotebookOutlinePosition[    111830,       2870]
+CellTagsIndexPosition[    111787,       2867]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData["Quit"], "Input",
+ CellChangeTimes->{{3.8119775317308016`*^9, 3.8119775321711683`*^9}},
+ CellLabel->"In[3]:=",ExpressionUUID->"b73ff2ba-a12a-4d5f-9b19-02969dca8e19"],
+
+Cell[CellGroupData[{
+
+Cell[TextData[StyleBox["The scalar wave equation on an n-dimensional \
+spacetime",
+ FontColor->RGBColor[
+  0.49411764705882355`, 0.13333333333333333`, 0.07058823529411765]]], "Title",
+ CellChangeTimes->{{3.7991530674758015`*^9, 3.7991531265710564`*^9}, {
+   3.7991533745700216`*^9, 3.7991533935782523`*^9}, {3.799155077899369*^9, 
+   3.7991550795873775`*^9}, 3.7991555891562524`*^9, {3.799181889464406*^9, 
+   3.7991818922089615`*^9}, {3.799327161199168*^9, 3.799327163796682*^9}, {
+   3.8119604249390798`*^9, 3.811960448523351*^9}, {3.8119630310154123`*^9, 
+   3.811963032350854*^9}},ExpressionUUID->"ac30e820-0294-4cd7-9b48-\
+0cf6897ac71f"],
+
+Cell[TextData[StyleBox["For criticism, suggestions and requests: \
+lissadesouzacampos@gmail.com",
+ FontColor->RGBColor[
+  0.34901960784313724`, 0.34901960784313724`, 1.]]], "Author",
+ CellChangeTimes->{{3.7993248396641345`*^9, 3.799324954313246*^9}, {
+  3.7993265314532595`*^9, 3.7993265333579345`*^9}, {3.7997824963822165`*^9, 
+  3.7997825010636053`*^9}},ExpressionUUID->"2736abb2-a875-41d4-be90-\
+7299de9e1855"],
+
+Cell[TextData[{
+ "This package implements only the function: ",
+ StyleBox["ScalarWaveEquation[]", "Code",
+  FontColor->RGBColor[
+   0.49411764705882355`, 0.13333333333333333`, 0.07058823529411765],
+  Background->RGBColor[1., 0.4745098039215686, 1.]],
+ StyleBox[". It receives data of a metric tensor and returns the \
+corresponding scalar wave equation with a potential term:",
+  Background->GrayLevel[1]]
+}], "Text",
+ CellChangeTimes->{{3.7991529871015306`*^9, 3.7991530089549894`*^9}, {
+  3.7991533106990175`*^9, 3.7991533460828214`*^9}, {3.799176643047202*^9, 
+  3.7991766721115103`*^9}, {3.7991767063762474`*^9, 3.7991768138397045`*^9}, {
+  3.7991781663361607`*^9, 3.7991781752076054`*^9}, {3.79978278108628*^9, 
+  3.7997830950846386`*^9}, {3.8119755274218626`*^9, 
+  3.8119755506056795`*^9}},ExpressionUUID->"96bd5ab5-ab6b-455e-bdcf-\
+890ee9b5a8b5"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"(", 
+    RowBox[{
+     RowBox[{
+      FractionBox["1", 
+       SqrtBox[
+        RowBox[{"|", 
+         RowBox[{"Det", "[", "g", "]"}], "|"}]]], " ", 
+      RowBox[{
+       SubscriptBox["\[PartialD]", "\[Mu]"], 
+       RowBox[{"(", 
+        RowBox[{
+         SqrtBox[
+          RowBox[{"|", 
+           RowBox[{"Det", "[", "g", "]"}], "|"}]], 
+         SuperscriptBox["g", "\[Mu]\[Nu]"], 
+         SubscriptBox["\[PartialD]", "\[Nu]"]}], ")"}]}]}], "-", 
+     SuperscriptBox["m", "2"]}], " ", ")"}], " ", "\[CapitalPsi]"}], " ", "=",
+   " ", "0"}]], "DisplayFormulaNumbered",
+ CellChangeTimes->{{3.7991536021879873`*^9, 3.7991536545963135`*^9}, {
+   3.799180886497305*^9, 3.799180910312105*^9}, {3.811960683091345*^9, 
+   3.811960696697175*^9}, {3.811960735116106*^9, 3.811960816370033*^9}, {
+   3.811962441014402*^9, 3.811962443359384*^9}, {3.8119696779246373`*^9, 
+   3.8119696790291824`*^9}, 3.811974536465767*^9},
+ TextAlignment->Center,ExpressionUUID->"6d67255a-d232-402f-a6f1-80fb5834af95"],
+
+Cell["\<\
+I have only tested it for diagonal, static metrics. That\[CloseCurlyQuote]s \
+all I need. But it should work in a general metric \
+\>", "Text",
+ CellChangeTimes->{{3.8119756221734776`*^9, 
+  3.811975687317994*^9}},ExpressionUUID->"76d98c0d-0d84-4e85-96c2-\
+763e24dee851"],
+
+Cell[BoxData[
+ RowBox[{"Import", "[", "\"\<ScalarWaveEquation.m\>\"", "]"}]], "Input",
+ CellChangeTimes->{{3.8119715919654827`*^9, 3.81197163729904*^9}, 
+   3.811971690142315*^9, 
+   3.811978970548709*^9},ExpressionUUID->"92b7f799-d19c-4fa6-8846-\
+af311df91674"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ StyleBox[
+  RowBox[{"?", " ", "ScalarWaveEquation"}],
+  FontColor->RGBColor[
+   0.49411764705882355`, 0.13333333333333333`, 0.07058823529411765],
+  Background->RGBColor[1., 0.4745098039215686, 1.]]], "Input",
+ CellChangeTimes->{{3.811974488608056*^9, 3.8119744890031333`*^9}},
+ CellLabel->"In[2]:=",ExpressionUUID->"db9235ca-cfea-4626-ba92-ae813f4b153b"],
+
+Cell[BoxData[
+ InterpretationBox[
+  StyleBox[
+   FrameBox[
+    DynamicModuleBox[{System`InformationDump`open$$ = False, 
+     System`InformationDump`mouseOver$$ = False}, 
+     PaneSelectorBox[{True->
+      TagBox[GridBox[{
+         {
+          ItemBox[
+           PaneBox[
+            StyleBox["\<\" Symbol\"\>", "InformationTitleText",
+             StripOnInput->False,
+             BaseStyle -> None],
+            FrameMargins->{{4, 0}, {-1, 1}}],
+           BaseStyle->"InformationTitleBackground",
+           StripOnInput->False], 
+          ItemBox["\<\"\"\>",
+           BaseStyle->"InformationTitleBackground",
+           StripOnInput->False]},
+         {
+          ItemBox[
+           PaneBox[
+            
+            StyleBox["\<\" ScalarWaveEquation[Options] gives the (massive) \
+scalar wave equation, on a spacetime with metric tensor \
+g\\n(\\!\\(\\*FractionBox[\\(1\\), SqrtBox[\\(\\(|\\)\\(Det[g]\\)\\(|\\)\\)]]\
+\\) \\!\\(\\*SubscriptBox[\\(\[PartialD]\\), \
+\\(\[Mu]\\)]\\)(\\!\\(\\*SqrtBox[\\(\\(|\\)\\(Det[g]\\)\\(|\\)\\)]\\)\\!\\(\\*\
+SuperscriptBox[\\(g\\), \\(\[Mu]\[Nu]\\)]\\)\\!\\(\\*SubscriptBox[\\(\
+\[PartialD]\\), \\(\[Nu]\\)]\\))- \\!\\(\\*SuperscriptBox[\\(m\\), \
+\\(2\\)]\\) ) \[CapitalPsi] = 0. One can provide the data of the metric \
+through the options 'spacetime', 'diagonal_metric' or 'metric'. Please check \
+the documentation for more information.\\n\\t\"\>", "InformationUsageText",
+             StripOnInput->False,
+             LineSpacing->{1.5, 1.5, 3.}],
+            FrameMargins->{{10, 10}, {8, 10}}],
+           BaseStyle->"InformationUsageSubtitleBackground",
+           StripOnInput->False], 
+          ItemBox["\<\"\"\>",
+           BaseStyle->"InformationUsageSubtitleBackground",
+           StripOnInput->False]},
+         {
+          PaneBox[GridBox[{
+             {
+              
+              DynamicModuleBox[{System`InformationDump`open$$ = {
+               False, False, False, False, False, False, False, False, False, 
+                False, False, False}}, 
+               StyleBox[GridBox[{
+                  {
+                   TagBox[
+                    TooltipBox[
+                    StyleBox["\<\" Definitions\"\>", "InformationRowLabel",
+                    StripOnInput->False],
+                    "\"Definitions\"",
+                    TooltipStyle->"TextStyling"],
+                    Annotation[#, "Definitions", "Tooltip"]& ], GridBox[{
+                    {
+                    RowBox[{
+                    RowBox[{"ScalarWaveEquation", "[", 
+                    RowBox[{"OptionsPattern", "[", "]"}], "]"}], ":=", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    RowBox[{"metricDictionary", "=", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"\<\"Minkowski Spherical n=4\"\>", ",", 
+                    RowBox[{"DiagonalMatrix", "[", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"-", "1"}], ",", "1", ",", 
+                    SuperscriptBox["r", "2"], ",", 
+                    RowBox[{
+                    SuperscriptBox["r", "2"], " ", 
+                    SuperscriptBox[
+                    RowBox[{"Sin", "[", "\[Theta]", "]"}], "2"]}]}], "}"}], 
+                    "]"}]}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"\<\"Schwarzschild n=4\"\>", ",", 
+                    RowBox[{"DiagonalMatrix", "[", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"-", 
+                    RowBox[{"(", 
+                    RowBox[{"1", "-", 
+                    FractionBox[
+                    RowBox[{"2", " ", "M"}], "r"]}], ")"}]}], ",", 
+                    FractionBox["1", 
+                    RowBox[{"1", "-", 
+                    FractionBox[
+                    RowBox[{"2", " ", "M"}], "r"]}]], ",", 
+                    SuperscriptBox["r", "2"], ",", 
+                    RowBox[{
+                    SuperscriptBox["r", "2"], " ", 
+                    SuperscriptBox[
+                    RowBox[{"Sin", "[", "\[Theta]", "]"}], "2"]}]}], "}"}], 
+                    "]"}]}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"\<\"Kerr n=4\"\>", ",", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"1", "-", 
+                    FractionBox[
+                    RowBox[{"2", " ", "M", " ", "r"}], 
+                    RowBox[{
+                    SuperscriptBox["r", "2"], "+", 
+                    RowBox[{
+                    SuperscriptBox["a", "2"], " ", 
+                    SuperscriptBox[
+                    RowBox[{"Cos", "[", "\[Theta]", "]"}], "2"]}]}]]}], ",", 
+                    "0", ",", "0", ",", 
+                    RowBox[{"-", 
+                    FractionBox[
+                    RowBox[{"2", " ", "a", " ", "M", " ", "r", " ", 
+                    SuperscriptBox[
+                    RowBox[{"Sin", "[", "\[Theta]", "]"}], "2"]}], 
+                    RowBox[{
+                    SuperscriptBox["r", "2"], "+", 
+                    RowBox[{
+                    SuperscriptBox["a", "2"], " ", 
+                    SuperscriptBox[
+                    RowBox[{"Cos", "[", "\[Theta]", "]"}], "2"]}]}]]}]}], 
+                    "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"0", ",", 
+                    FractionBox[
+                    RowBox[{
+                    SuperscriptBox["r", "2"], "+", 
+                    RowBox[{
+                    SuperscriptBox["a", "2"], " ", 
+                    SuperscriptBox[
+                    RowBox[{"Cos", "[", "\[Theta]", "]"}], "2"]}]}], 
+                    RowBox[{
+                    SuperscriptBox["a", "2"], "-", 
+                    RowBox[{"2", " ", "M", " ", "r"}], "+", 
+                    SuperscriptBox["r", "2"]}]], ",", "0", ",", "0"}], "}"}], 
+                    ",", 
+                    RowBox[{"{", 
+                    RowBox[{"0", ",", "0", ",", 
+                    RowBox[{
+                    SuperscriptBox["r", "2"], "+", 
+                    RowBox[{
+                    SuperscriptBox["a", "2"], " ", 
+                    SuperscriptBox[
+                    RowBox[{"Cos", "[", "\[Theta]", "]"}], "2"]}]}], ",", 
+                    "0"}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"-", 
+                    FractionBox[
+                    RowBox[{"2", " ", "a", " ", "M", " ", "r", " ", 
+                    SuperscriptBox[
+                    RowBox[{"Sin", "[", "\[Theta]", "]"}], "2"]}], 
+                    RowBox[{
+                    SuperscriptBox["r", "2"], "+", 
+                    RowBox[{
+                    SuperscriptBox["a", "2"], " ", 
+                    SuperscriptBox[
+                    RowBox[{"Cos", "[", "\[Theta]", "]"}], "2"]}]}]]}], ",", 
+                    "0", ",", "0", ",", 
+                    RowBox[{
+                    SuperscriptBox[
+                    RowBox[{"Sin", "[", "\[Theta]", "]"}], "2"], " ", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    SuperscriptBox["a", "2"], "+", 
+                    SuperscriptBox["r", "2"], "+", 
+                    FractionBox[
+                    RowBox[{"2", " ", 
+                    SuperscriptBox["a", "2"], " ", "M", " ", "r", " ", 
+                    SuperscriptBox[
+                    RowBox[{"Sin", "[", "\[Theta]", "]"}], "2"]}], 
+                    RowBox[{
+                    SuperscriptBox["r", "2"], "+", 
+                    RowBox[{
+                    SuperscriptBox["a", "2"], " ", 
+                    SuperscriptBox[
+                    RowBox[{"Cos", "[", "\[Theta]", "]"}], "2"]}]}]]}], 
+                    ")"}]}]}], "}"}]}], "}"}]}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"\<\"static spherically symmetric n=4\"\>", ",", 
+                    RowBox[{"DiagonalMatrix", "[", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"-", 
+                    RowBox[{"f", "[", "r", "]"}]}], ",", 
+                    FractionBox["1", 
+                    RowBox[{"f", "[", "r", "]"}]], ",", 
+                    SuperscriptBox["r", "2"], ",", 
+                    RowBox[{
+                    SuperscriptBox["r", "2"], " ", 
+                    SuperscriptBox[
+                    RowBox[{"Sin", "[", "\[Theta]", "]"}], "2"]}]}], "}"}], 
+                    "]"}]}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"\<\"AdS Global n=4\"\>", ",", 
+                    RowBox[{"DiagonalMatrix", "[", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"-", 
+                    RowBox[{"(", 
+                    RowBox[{"1", "+", 
+                    SuperscriptBox["r", "2"]}], ")"}]}], ",", 
+                    FractionBox["1", 
+                    RowBox[{"1", "+", 
+                    SuperscriptBox["r", "2"]}]], ",", 
+                    SuperscriptBox["r", "2"], ",", 
+                    RowBox[{
+                    SuperscriptBox["r", "2"], " ", 
+                    SuperscriptBox[
+                    RowBox[{"Sin", "[", "\[Theta]", "]"}], "2"]}]}], "}"}], 
+                    "]"}]}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"\<\"Rindler-AdS n=4\"\>", ",", 
+                    RowBox[{"DiagonalMatrix", "[", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"-", 
+                    FractionBox[
+                    SuperscriptBox["r", "2"], 
+                    SuperscriptBox["L", "2"]]}], ",", 
+                    FractionBox["1", 
+                    RowBox[{"1", "+", 
+                    FractionBox[
+                    SuperscriptBox["r", "2"], 
+                    SuperscriptBox["L", "2"]]}]], ",", 
+                    RowBox[{"1", "+", 
+                    FractionBox[
+                    SuperscriptBox["r", "2"], 
+                    SuperscriptBox["L", "2"]]}], ",", 
+                    RowBox[{
+                    RowBox[{"(", 
+                    RowBox[{"1", "+", 
+                    FractionBox[
+                    SuperscriptBox["r", "2"], 
+                    SuperscriptBox["L", "2"]]}], ")"}], " ", 
+                    SuperscriptBox["L", "2"], " ", 
+                    SuperscriptBox[
+                    RowBox[{"Sinh", "[", 
+                    FractionBox["\[Theta]", "L"], "]"}], "2"]}]}], "}"}], 
+                    "]"}]}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"\<\"Schwarzschild-AdS n=4\"\>", ",", 
+                    RowBox[{"DiagonalMatrix", "[", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"-", 
+                    RowBox[{"(", 
+                    RowBox[{"1", "-", 
+                    FractionBox[
+                    RowBox[{"2", " ", "M"}], "r"], "+", 
+                    RowBox[{"k", " ", 
+                    SuperscriptBox["r", "2"]}]}], ")"}]}], ",", 
+                    FractionBox["1", 
+                    RowBox[{"1", "-", 
+                    FractionBox[
+                    RowBox[{"2", " ", "M"}], "r"], "+", 
+                    RowBox[{"k", " ", 
+                    SuperscriptBox["r", "2"]}]}]], ",", 
+                    SuperscriptBox["r", "2"], ",", 
+                    RowBox[{
+                    SuperscriptBox["r", "2"], " ", 
+                    SuperscriptBox[
+                    RowBox[{"Sin", "[", "\[Theta]", "]"}], "2"]}]}], "}"}], 
+                    "]"}]}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"\<\"Static BTZ n=3\"\>", ",", 
+                    RowBox[{"DiagonalMatrix", "[", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"-", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    SuperscriptBox["r", "2"], "-", "M"}], ")"}]}], ",", 
+                    FractionBox["1", 
+                    RowBox[{
+                    SuperscriptBox["r", "2"], "-", "M"}]], ",", 
+                    SuperscriptBox["r", "2"]}], "}"}], "]"}]}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"\<\"Rindler-AdS n=3\"\>", ",", 
+                    RowBox[{"DiagonalMatrix", "[", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"-", 
+                    RowBox[{"(", 
+                    RowBox[{
+                    SuperscriptBox["r", "2"], "-", 
+                    SuperscriptBox["rh", "2"]}], ")"}]}], ",", 
+                    FractionBox["1", 
+                    RowBox[{
+                    SuperscriptBox["r", "2"], "-", 
+                    SuperscriptBox["rh", "2"]}]], ",", 
+                    SuperscriptBox["r", "2"]}], "}"}], "]"}]}], "}"}]}], 
+                    "}"}]}], ";", 
+                    RowBox[{"g", "=", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"OptionValue", "[", "\<\"metric\"\>", "]"}], "=!=", 
+                    RowBox[{"{", "}"}]}], ",", 
+                    RowBox[{"OptionValue", "[", "\<\"metric\"\>", "]"}], ",", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    "OptionValue", "[", "\<\"diagonal_metric\"\>", "]"}], "=!=", 
+                    RowBox[{"{", "}"}]}], ",", 
+                    RowBox[{"DiagonalMatrix", "[", 
+                    RowBox[{
+                    "OptionValue", "[", "\<\"diagonal_metric\"\>", "]"}], 
+                    "]"}], ",", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"OptionValue", "[", "\<\"spacetime\"\>", "]"}], "=!=", 
+                    RowBox[{"{", "}"}]}], "||", 
+                    RowBox[{
+                    RowBox[{"Position", "[", 
+                    RowBox[{"metricDictionary", ",", 
+                    RowBox[{"OptionValue", "[", "\<\"spacetime\"\>", "]"}]}], 
+                    "]"}], "=!=", 
+                    RowBox[{"{", "}"}]}]}], ",", 
+                    RowBox[{"metricDictionary", "\[LeftDoubleBracket]", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"Position", "[", 
+                    RowBox[{"metricDictionary", ",", 
+                    RowBox[{"OptionValue", "[", "\<\"spacetime\"\>", "]"}]}], 
+                    "]"}], "\[LeftDoubleBracket]", 
+                    RowBox[{"1", ",", "1"}], "\[RightDoubleBracket]"}], ",", 
+                    "2"}], "\[RightDoubleBracket]"}], ",", 
+                    RowBox[{
+                    RowBox[{
+                    "Print", 
+                    "[", "\<\"Your waves have to travel somewhere!\"\>", 
+                    "]"}], ";", 
+                    RowBox[{"Abort", "[", "]"}]}]}], "]"}]}], "]"}]}], 
+                    "]"}]}], ";", 
+                    RowBox[{"n", "=", 
+                    RowBox[{"Length", "[", "g", "]"}]}], ";", 
+                    RowBox[{"ginv", "=", 
+                    RowBox[{"Inverse", "[", "g", "]"}]}], ";", 
+                    RowBox[{"moduleDet", "=", 
+                    RowBox[{
+                    RowBox[{"OptionValue", "[", "\<\"Lorentzian\"\>", "]"}], 
+                    " ", 
+                    RowBox[{"Det", "[", "g", "]"}]}]}], ";", 
+                    RowBox[{"coordinates", "=", 
+                    RowBox[{"Table", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"OptionValue", "[", "\<\"coordinates\"\>", "]"}], 
+                    "\[LeftDoubleBracket]", "i", "\[RightDoubleBracket]"}], 
+                    ",", 
+                    RowBox[{"{", 
+                    RowBox[{"i", ",", "1", ",", "n"}], "}"}]}], "]"}]}], ";", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"OptionValue", "[", "\<\"ansatz\"\>", "]"}], "===", 
+                    RowBox[{"{", "}"}]}], ",", 
+                    RowBox[{
+                    RowBox[{"ansatz", "=", "1"}], ";", 
+                    RowBox[{"Sol", "=", 
+                    RowBox[{"\[CapitalPsi]", "[", "coordinates", "]"}]}]}], 
+                    ",", 
+                    RowBox[{
+                    RowBox[{"ansatz", "=", 
+                    RowBox[{
+                    UnderoverscriptBox["\[Product]", 
+                    RowBox[{"i", "=", "1"}], 
+                    RowBox[{"Length", "[", 
+                    RowBox[{"OptionValue", "[", "\<\"ansatz\"\>", "]"}], 
+                    "]"}]], 
+                    RowBox[{
+                    RowBox[{"OptionValue", "[", "\<\"ansatz\"\>", "]"}], 
+                    "\[LeftDoubleBracket]", "i", 
+                    "\[RightDoubleBracket]"}]}]}], ";", 
+                    RowBox[{"Sol", "=", "ansatz"}]}]}], "]"}], ";", 
+                    RowBox[{"waveEq", "=", 
+                    RowBox[{"FullSimplify", "[", 
+                    FractionBox[
+                    RowBox[{
+                    FractionBox[
+                    RowBox[{
+                    UnderoverscriptBox["\[Sum]", 
+                    RowBox[{"\[Mu]", "=", "1"}], "n"], 
+                    RowBox[{"(", 
+                    RowBox[{
+                    UnderoverscriptBox["\[Sum]", 
+                    RowBox[{"\[Nu]", "=", "1"}], "n"], 
+                    RowBox[{
+                    SubscriptBox["\[PartialD]", 
+                    RowBox[{
+                    "coordinates", "\[LeftDoubleBracket]", "\[Mu]", 
+                    "\[RightDoubleBracket]"}]], 
+                    RowBox[{"(", 
+                    RowBox[{"moduleDet", " ", 
+                    RowBox[{"ginv", "\[LeftDoubleBracket]", 
+                    RowBox[{"\[Mu]", ",", "\[Nu]"}], 
+                    "\[RightDoubleBracket]"}], " ", 
+                    RowBox[{
+                    SubscriptBox["\[PartialD]", 
+                    RowBox[{
+                    "coordinates", "\[LeftDoubleBracket]", "\[Nu]", 
+                    "\[RightDoubleBracket]"}]], "Sol"}]}], ")"}]}]}], ")"}]}],
+                     "moduleDet"], "-", 
+                    RowBox[{
+                    SuperscriptBox["m", "2"], " ", "Sol"}]}], "ansatz"], 
+                    "]"}]}], ";", 
+                    RowBox[{"Collect", "[", 
+                    RowBox[{"waveEq", ",", 
+                    RowBox[{"OptionValue", "[", "\<\"ansatz\"\>", "]"}]}], 
+                    "]"}]}], ")"}]}]}
+                    },
+                    DefaultBaseStyle->"Column",
+                    GridBoxAlignment->{"Columns" -> {{Left}}},
+                    
+                    GridBoxItemSize->{
+                    "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}]},
+                  {
+                   PaneSelectorBox[{True->
+                    ButtonBox[
+                    PaneSelectorBox[{False->
+                    TemplateBox[{"\[ThickSpace]", "\"\[ThickSpace]\"", 
+                    StyleBox[
+                    "\"Options\"", "InformationRowLabel", StripOnInput -> 
+                    False], 
+                    DynamicBox[
+                    FEPrivate`FrontEndResource[
+                    "FEBitmaps", "DownPointerOpener"]]},
+                    "RowWithSeparators"], True->
+                    TemplateBox[{"\[ThickSpace]", "\"\[ThickSpace]\"", 
+                    StyleBox[
+                    "\"Options\"", "InformationRowLabel", StripOnInput -> 
+                    False], 
+                    DynamicBox[
+                    FEPrivate`FrontEndResource[
+                    "FEBitmaps", "DownPointerOpenerHot"]]},
+                    "RowWithSeparators"]}, Dynamic[
+                    CurrentValue["MouseOver"]],
+                    FrameMargins->0,
+                    ImageSize->Automatic],
+                    Appearance->None,
+                    BaseStyle->None,
+                    
+                    ButtonFunction:>(Part[System`InformationDump`open$$, 9] = 
+                    False),
+                    Evaluator->Automatic,
+                    FrameMargins->0,
+                    ImageMargins->0,
+                    Method->"Preemptive"], False->
+                    ButtonBox[
+                    PaneSelectorBox[{False->
+                    TemplateBox[{"\[ThickSpace]", "\"\[ThickSpace]\"", 
+                    StyleBox[
+                    "\"Options\"", "InformationRowLabel", StripOnInput -> 
+                    False], 
+                    DynamicBox[
+                    FEPrivate`FrontEndResource[
+                    "FEBitmaps", "RightPointerOpener"]]},
+                    "RowWithSeparators"], True->
+                    TemplateBox[{"\[ThickSpace]", "\"\[ThickSpace]\"", 
+                    StyleBox[
+                    "\"Options\"", "InformationRowLabel", StripOnInput -> 
+                    False], 
+                    DynamicBox[
+                    FEPrivate`FrontEndResource[
+                    "FEBitmaps", "RightPointerOpenerHot"]]},
+                    "RowWithSeparators"]}, Dynamic[
+                    CurrentValue["MouseOver"]],
+                    FrameMargins->0,
+                    ImageSize->Automatic],
+                    Appearance->None,
+                    BaseStyle->None,
+                    
+                    ButtonFunction:>(Part[System`InformationDump`open$$, 9] = 
+                    True),
+                    Evaluator->Automatic,
+                    FrameMargins->0,
+                    ImageMargins->0,
+                    Method->"Preemptive"]}, Dynamic[
+                    FEPrivate`Part[System`InformationDump`open$$, 9]]], 
+                   PaneSelectorBox[{True->GridBox[{
+                    {
+                    RowBox[{"\<\"spacetime\"\>", "\[Rule]", 
+                    RowBox[{"{", "}"}]}]},
+                    {
+                    RowBox[{"\<\"diagonal_metric\"\>", "\[Rule]", 
+                    RowBox[{"{", "}"}]}]},
+                    {
+                    RowBox[{"\<\"metric\"\>", "\[Rule]", 
+                    RowBox[{"{", "}"}]}]},
+                    {
+                    RowBox[{"\<\"coordinates\"\>", "\[Rule]", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    "t", ",", "r", ",", "\[Theta]", ",", "\[CurlyPhi]"}], 
+                    "}"}]}]},
+                    {
+                    RowBox[{"\<\"Lorentzian\"\>", "\[Rule]", 
+                    RowBox[{"-", "1"}]}]},
+                    {
+                    RowBox[{"\<\"ansatz\"\>", "\[Rule]", 
+                    RowBox[{"{", "}"}]}]},
+                    {
+                    StyleBox[
+                    
+                    TemplateBox[{
+                    "\"(\"", "\"\[InvisibleSpace]\"", "6", "\" total)\""},
+                    "RowDefault"], "InformationRowOpener",
+                    StripOnInput->False]}
+                    },
+                    BaselinePosition->{Baseline, {1, 1}},
+                    DefaultBaseStyle->"Column",
+                    GridBoxAlignment->{"Columns" -> {{Left}}},
+                    GridBoxItemSize->{
+                    "Columns" -> {{Automatic}}, "Rows" -> {{1.}}}], False->
+                    RowBox[{
+                    RowBox[{"\<\"spacetime\"\>", "\[Rule]", 
+                    RowBox[{"{", "}"}]}], "\[ThinSpace]", 
+                    StyleBox["\<\"\[Ellipsis]\"\>", "InformationRowOpener",
+                    StripOnInput->False], "\[ThinSpace]", 
+                    StyleBox[
+                    
+                    TemplateBox[{
+                    "\"(\"", "\"\[InvisibleSpace]\"", "6", "\" total)\""},
+                    "RowDefault"], "InformationRowOpener",
+                    StripOnInput->False]}]}, Dynamic[
+                    FEPrivate`Part[System`InformationDump`open$$, 9]],
+                    BaselinePosition->Baseline,
+                    ImageSize->Automatic]},
+                  {
+                   TagBox[
+                    TooltipBox[
+                    StyleBox["\<\" Full Name\"\>", "InformationRowLabel",
+                    StripOnInput->False],
+                    "\"FullName\"",
+                    TooltipStyle->"TextStyling"],
+                    
+                    Annotation[#, "FullName", 
+                    "Tooltip"]& ], "\<\"ScalarWaveEquation`ScalarWaveEquation\
+\"\>"}
+                 },
+                 AutoDelete->False,
+                 GridBoxAlignment->{"Columns" -> {Right, Left}},
+                 GridBoxDividers->None,
+                 GridBoxItemSize->{"Columns" -> {Automatic, Automatic}},
+                 GridBoxSpacings->{"Columns" -> {
+                    Offset[0.27999999999999997`], {
+                    Offset[0.5599999999999999]}, 
+                    Offset[0.27999999999999997`]}, "Rows" -> {
+                    Offset[0.2], {
+                    Offset[0.8]}, 
+                    Offset[0.2]}}], "DialogStyle",
+                StripOnInput->False],
+               DynamicModuleValues:>{}]}
+            },
+            DefaultBaseStyle->"Column",
+            GridBoxAlignment->{"Columns" -> {{Left}}},
+            GridBoxDividers->{"Columns" -> {{False}}, "Rows" -> {{False}}},
+            
+            GridBoxItemSize->{
+             "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}},
+            GridBoxSpacings->{"Columns" -> {
+                Offset[0.27999999999999997`], {
+                 Offset[0.5599999999999999]}, 
+                Offset[0.27999999999999997`]}, "Rows" -> {
+                Offset[0.2], {
+                 Offset[3.6]}, 
+                Offset[0.2]}}],
+           FrameMargins->6], ""},
+         {
+          ItemBox[
+           TagBox[
+            ButtonBox[
+             PaneSelectorBox[{False->
+              
+              DynamicBox[FEPrivate`FrontEndResource[
+               "FEBitmaps", "UpPointerOpener"]], True->
+              
+              DynamicBox[FEPrivate`FrontEndResource[
+               "FEBitmaps", "UpPointerOpenerHot"]]}, Dynamic[
+              System`InformationDump`mouseOver$$]],
+             Alignment->Left,
+             Appearance->{"Default" -> None},
+             
+             ButtonFunction:>FEPrivate`Set[
+              System`InformationDump`open$$, False],
+             Evaluator->Automatic,
+             FrameMargins->{{9, 0}, {0, 0}},
+             ImageMargins->0,
+             ImageSize->Full,
+             Method->"Preemptive"],
+            
+            EventHandlerTag[{
+             "MouseEntered" :> 
+              FEPrivate`Set[System`InformationDump`mouseOver$$, True], 
+              "MouseExited" :> 
+              FEPrivate`Set[System`InformationDump`mouseOver$$, False], 
+              Method -> "Preemptive", PassEventsDown -> Automatic, 
+              PassEventsUp -> True}]],
+           BaseStyle->"InformationTitleBackground",
+           StripOnInput->False], "\[SpanFromLeft]"}
+        },
+        AutoDelete->False,
+        FrameStyle->Directive[
+          GrayLevel[0.8], 
+          Thickness[Tiny]],
+        GridBoxAlignment->{"Columns" -> {Left, Right}, "Rows" -> {{Center}}},
+        GridBoxDividers->{
+         "Columns" -> {{None}}, "Rows" -> {False, {True}, False}},
+        GridBoxItemSize->{
+         "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+       "Grid"], False->
+      TagBox[GridBox[{
+         {
+          ItemBox[
+           PaneBox[
+            StyleBox["\<\" Symbol\"\>", "InformationTitleText",
+             StripOnInput->False],
+            FrameMargins->{{4, 0}, {-1, 1}}],
+           BaseStyle->"InformationTitleBackground",
+           StripOnInput->False], 
+          ItemBox["\<\"\"\>",
+           BaseStyle->"InformationTitleBackground",
+           StripOnInput->False]},
+         {
+          ItemBox[
+           PaneBox[
+            
+            StyleBox["\<\" ScalarWaveEquation[Options] gives the (massive) \
+scalar wave equation, on a spacetime with metric tensor \
+g\\n(\\!\\(\\*FractionBox[\\(1\\), SqrtBox[\\(\\(|\\)\\(Det[g]\\)\\(|\\)\\)]]\
+\\) \\!\\(\\*SubscriptBox[\\(\[PartialD]\\), \
+\\(\[Mu]\\)]\\)(\\!\\(\\*SqrtBox[\\(\\(|\\)\\(Det[g]\\)\\(|\\)\\)]\\)\\!\\(\\*\
+SuperscriptBox[\\(g\\), \\(\[Mu]\[Nu]\\)]\\)\\!\\(\\*SubscriptBox[\\(\
+\[PartialD]\\), \\(\[Nu]\\)]\\))- \\!\\(\\*SuperscriptBox[\\(m\\), \
+\\(2\\)]\\) ) \[CapitalPsi] = 0. One can provide the data of the metric \
+through the options 'spacetime', 'diagonal_metric' or 'metric'. Please check \
+the documentation for more information.\\n\\t\"\>", "InformationUsageText",
+             StripOnInput->False,
+             LineSpacing->{1.5, 1.5, 3.}],
+            FrameMargins->{{10, 10}, {8, 10}}],
+           BaseStyle->"InformationUsageSubtitleBackground",
+           StripOnInput->False], 
+          ItemBox["\<\"\"\>",
+           BaseStyle->"InformationUsageSubtitleBackground",
+           StripOnInput->False]},
+         {
+          ItemBox[
+           TagBox[
+            ButtonBox[
+             PaneSelectorBox[{False->
+              
+              DynamicBox[FEPrivate`FrontEndResource[
+               "FEBitmaps", "DownPointerOpener"],
+               ImageSizeCache->{10., {3., 7.}}], True->
+              
+              DynamicBox[FEPrivate`FrontEndResource[
+               "FEBitmaps", "DownPointerOpenerHot"],
+               ImageSizeCache->{10., {3., 7.}}]}, Dynamic[
+              System`InformationDump`mouseOver$$]],
+             Alignment->Left,
+             Appearance->{"Default" -> None},
+             
+             ButtonFunction:>FEPrivate`Set[
+              System`InformationDump`open$$, True],
+             Evaluator->Automatic,
+             FrameMargins->{{9, 0}, {0, 0}},
+             ImageMargins->0,
+             ImageSize->Full,
+             Method->"Preemptive"],
+            
+            EventHandlerTag[{
+             "MouseEntered" :> 
+              FEPrivate`Set[System`InformationDump`mouseOver$$, True], 
+              "MouseExited" :> 
+              FEPrivate`Set[System`InformationDump`mouseOver$$, False], 
+              Method -> "Preemptive", PassEventsDown -> Automatic, 
+              PassEventsUp -> True}]],
+           BaseStyle->"InformationTitleBackground",
+           StripOnInput->False], "\[SpanFromLeft]"}
+        },
+        AutoDelete->False,
+        FrameStyle->Directive[
+          GrayLevel[0.8], 
+          Thickness[Tiny]],
+        GridBoxAlignment->{"Columns" -> {Left, Right}, "Rows" -> {{Center}}},
+        GridBoxDividers->{
+         "Columns" -> {{None}}, "Rows" -> {False, {True}, False}},
+        GridBoxItemSize->{
+         "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+       "Grid"]}, Dynamic[System`InformationDump`open$$],
+      BaselinePosition->Baseline,
+      FrameMargins->0,
+      ImageSize->Automatic],
+     DynamicModuleValues:>{}],
+    BaseStyle->"InformationGridFrame",
+    StripOnInput->False], "InformationGridPlain",
+   StripOnInput->False],
+  InformationData[
+   Association[
+   "ObjectType" -> "Symbol", "Usage" -> 
+    " ScalarWaveEquation[Options] gives the (massive) scalar wave equation, \
+on a spacetime with metric tensor g\n(\!\(\*FractionBox[\(1\), \
+SqrtBox[\(\(|\)\(Det[g]\)\(|\)\)]]\) \!\(\*SubscriptBox[\(\[PartialD]\), \(\
+\[Mu]\)]\)(\!\(\*SqrtBox[\(\(|\)\(Det[g]\)\(|\)\)]\)\!\(\*SuperscriptBox[\(g\)\
+, \(\[Mu]\[Nu]\)]\)\!\(\*SubscriptBox[\(\[PartialD]\), \(\[Nu]\)]\))- \
+\!\(\*SuperscriptBox[\(m\), \(2\)]\) ) \[CapitalPsi] = 0. One can provide the \
+data of the metric through the options 'spacetime', 'diagonal_metric' or \
+'metric'. Please check the documentation for more information.\n\t", 
+    "Documentation" -> None, "OwnValues" -> None, "UpValues" -> None, 
+    "DownValues" -> 
+    Information`InformationValueForm[
+     DownValues, ScalarWaveEquation`ScalarWaveEquation, {
+      ScalarWaveEquation`ScalarWaveEquation[
+         OptionsPattern[]] :> (
+        ScalarWaveEquation`metricDictionary = {{"Minkowski Spherical n=4", 
+            
+            DiagonalMatrix[{-1, 1, ScalarWaveEquation`r^2, 
+              ScalarWaveEquation`r^2 Sin[ScalarWaveEquation`\[Theta]]^2}]}, {
+           "Schwarzschild n=4", 
+            
+            DiagonalMatrix[{-(1 - (2 ScalarWaveEquation`M)/
+               ScalarWaveEquation`r), (1 - (2 ScalarWaveEquation`M)/
+               ScalarWaveEquation`r)^(-1), ScalarWaveEquation`r^2, 
+              ScalarWaveEquation`r^2 Sin[ScalarWaveEquation`\[Theta]]^2}]}, {
+           "Kerr n=4", {{
+             1 - (2 ScalarWaveEquation`M ScalarWaveEquation`r)/(
+              ScalarWaveEquation`r^2 + 
+              ScalarWaveEquation`a^2 Cos[ScalarWaveEquation`\[Theta]]^2), 0, 
+              0, -((2 ScalarWaveEquation`a ScalarWaveEquation`M 
+                ScalarWaveEquation`r Sin[ScalarWaveEquation`\[Theta]]^2)/(
+               ScalarWaveEquation`r^2 + 
+               ScalarWaveEquation`a^2 Cos[ScalarWaveEquation`\[Theta]]^2))}, {
+             0, (ScalarWaveEquation`r^2 + 
+               ScalarWaveEquation`a^2 Cos[ScalarWaveEquation`\[Theta]]^2)/(
+              ScalarWaveEquation`a^2 - 2 ScalarWaveEquation`M 
+              ScalarWaveEquation`r + ScalarWaveEquation`r^2), 0, 0}, {
+             0, 0, ScalarWaveEquation`r^2 + 
+              ScalarWaveEquation`a^2 Cos[ScalarWaveEquation`\[Theta]]^2, 
+              0}, {-((2 ScalarWaveEquation`a ScalarWaveEquation`M 
+                ScalarWaveEquation`r Sin[ScalarWaveEquation`\[Theta]]^2)/(
+               ScalarWaveEquation`r^2 + 
+               ScalarWaveEquation`a^2 Cos[ScalarWaveEquation`\[Theta]]^2)), 0,
+               0, Sin[ScalarWaveEquation`\[Theta]]^2 (ScalarWaveEquation`a^2 + 
+               ScalarWaveEquation`r^2 + (2 ScalarWaveEquation`a^2 
+                 ScalarWaveEquation`M ScalarWaveEquation`r 
+                 Sin[ScalarWaveEquation`\[Theta]]^2)/(ScalarWaveEquation`r^2 + 
+                ScalarWaveEquation`a^2 
+                 Cos[ScalarWaveEquation`\[Theta]]^2))}}}, {
+           "static spherically symmetric n=4", 
+            
+            DiagonalMatrix[{-ScalarWaveEquation`f[ScalarWaveEquation`r], 
+              ScalarWaveEquation`f[ScalarWaveEquation`r]^(-1), 
+              ScalarWaveEquation`r^2, ScalarWaveEquation`r^2 
+              Sin[ScalarWaveEquation`\[Theta]]^2}]}, {"AdS Global n=4", 
+            
+            DiagonalMatrix[{-(1 + ScalarWaveEquation`r^2), (1 + 
+               ScalarWaveEquation`r^2)^(-1), ScalarWaveEquation`r^2, 
+              ScalarWaveEquation`r^2 Sin[ScalarWaveEquation`\[Theta]]^2}]}, {
+           "Rindler-AdS n=4", 
+            
+            DiagonalMatrix[{-(ScalarWaveEquation`r^2/
+               ScalarWaveEquation`L^2), (1 + 
+               ScalarWaveEquation`r^2/ScalarWaveEquation`L^2)^(-1), 1 + 
+              ScalarWaveEquation`r^2/ScalarWaveEquation`L^2, (1 + 
+               ScalarWaveEquation`r^2/ScalarWaveEquation`L^2) 
+              ScalarWaveEquation`L^2 
+              Sinh[ScalarWaveEquation`\[Theta]/ScalarWaveEquation`L]^2}]}, {
+           "Schwarzschild-AdS n=4", 
+            
+            DiagonalMatrix[{-(1 - (2 ScalarWaveEquation`M)/
+               ScalarWaveEquation`r + 
+               ScalarWaveEquation`k ScalarWaveEquation`r^2), (
+               1 - (2 ScalarWaveEquation`M)/ScalarWaveEquation`r + 
+               ScalarWaveEquation`k ScalarWaveEquation`r^2)^(-1), 
+              ScalarWaveEquation`r^2, ScalarWaveEquation`r^2 
+              Sin[ScalarWaveEquation`\[Theta]]^2}]}, {"Static BTZ n=3", 
+            
+            DiagonalMatrix[{-(ScalarWaveEquation`r^2 - 
+               ScalarWaveEquation`M), (ScalarWaveEquation`r^2 - 
+               ScalarWaveEquation`M)^(-1), ScalarWaveEquation`r^2}]}, {
+           "Rindler-AdS n=3", 
+            
+            DiagonalMatrix[{-(ScalarWaveEquation`r^2 - 
+               ScalarWaveEquation`rh^2), (ScalarWaveEquation`r^2 - 
+               ScalarWaveEquation`rh^2)^(-1), ScalarWaveEquation`r^2}]}}; 
+        ScalarWaveEquation`g = If[OptionValue["metric"] =!= {}, 
+           OptionValue["metric"], 
+           If[OptionValue["diagonal_metric"] =!= {}, 
+            DiagonalMatrix[
+             OptionValue["diagonal_metric"]], 
+            If[
+             Or[
+             OptionValue["spacetime"] =!= {}, 
+              Position[ScalarWaveEquation`metricDictionary, 
+                OptionValue["spacetime"]] =!= {}], 
+             Part[ScalarWaveEquation`metricDictionary, 
+              Part[
+               Position[ScalarWaveEquation`metricDictionary, 
+                OptionValue["spacetime"]], 1, 1], 2], 
+             Print["Your waves have to travel somewhere!"]; Abort[]]]]; 
+        ScalarWaveEquation`n = Length[ScalarWaveEquation`g]; 
+        ScalarWaveEquation`ginv = Inverse[ScalarWaveEquation`g]; 
+        ScalarWaveEquation`moduleDet = 
+         OptionValue["Lorentzian"] Det[ScalarWaveEquation`g]; 
+        ScalarWaveEquation`coordinates = Table[
+           Part[
+            OptionValue["coordinates"], ScalarWaveEquation`i], {
+           ScalarWaveEquation`i, 1, ScalarWaveEquation`n}]; 
+        If[OptionValue["ansatz"] === {}, ScalarWaveEquation`ansatz = 1; 
+          ScalarWaveEquation`Sol = 
+           ScalarWaveEquation`\[CapitalPsi][ScalarWaveEquation`coordinates], 
+          ScalarWaveEquation`ansatz = Product[
+             Part[
+              OptionValue["ansatz"], ScalarWaveEquation`i], {
+             ScalarWaveEquation`i, 1, 
+              Length[
+               OptionValue["ansatz"]]}]; 
+          ScalarWaveEquation`Sol = ScalarWaveEquation`ansatz]; 
+        ScalarWaveEquation`waveEq = 
+         FullSimplify[
+          1 ScalarWaveEquation`ansatz^(-1) (
+            1 ScalarWaveEquation`moduleDet^(-1) Sum[
+               Sum[
+                D[
+                ScalarWaveEquation`moduleDet 
+                 Part[ScalarWaveEquation`ginv, ScalarWaveEquation`\[Mu], 
+                   ScalarWaveEquation`\[Nu]] D[ScalarWaveEquation`Sol, 
+                   Part[
+                   ScalarWaveEquation`coordinates, ScalarWaveEquation`\[Nu]]], 
+                 Part[
+                 ScalarWaveEquation`coordinates, ScalarWaveEquation`\[Mu]]], {
+                ScalarWaveEquation`\[Nu], 1, ScalarWaveEquation`n}], {
+               ScalarWaveEquation`\[Mu], 1, ScalarWaveEquation`n}] - 
+            ScalarWaveEquation`m^2 ScalarWaveEquation`Sol)]; 
+        Collect[ScalarWaveEquation`waveEq, 
+          OptionValue["ansatz"]])}], "SubValues" -> None, "DefaultValues" -> 
+    None, "NValues" -> None, "FormatValues" -> None, 
+    "Options" -> {
+     "spacetime" -> {}, "diagonal_metric" -> {}, "metric" -> {}, 
+      "coordinates" -> {
+       ScalarWaveEquation`t, ScalarWaveEquation`r, 
+        ScalarWaveEquation`\[Theta], ScalarWaveEquation`\[CurlyPhi]}, 
+      "Lorentzian" -> -1, "ansatz" -> {}}, "Attributes" -> {}, "FullName" -> 
+    "ScalarWaveEquation`ScalarWaveEquation"], False]]], "Output",
+ CellChangeTimes->{3.81197448955425*^9, 3.811977047502182*^9},
+ CellLabel->"Out[2]=",ExpressionUUID->"eaba055b-5d93-4ea4-a51e-2ebd6382161a"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[StyleBox["There are three different ways of choosing the metric \
+tensor. ",
+ FontColor->RGBColor[
+  0.49411764705882355`, 0.13333333333333333`, 
+   0.07058823529411765]]], "Section",
+ CellChangeTimes->{{3.8119699331260815`*^9, 3.811970020216326*^9}, {
+  3.811970074069496*^9, 3.8119700773024535`*^9}, {3.8119701808606973`*^9, 
+  3.81197018950849*^9}},ExpressionUUID->"55464637-aa7d-4d7a-924a-\
+9974d469d9a8"],
+
+Cell[CellGroupData[{
+
+Cell[TextData[StyleBox["By the name of the spacetime.",
+ FontColor->RGBColor[
+  0.7764705882352941, 0., 0.7764705882352941]]], "Subsubsection",
+ CellChangeTimes->{{3.811970166494561*^9, 
+  3.8119701726135197`*^9}},ExpressionUUID->"6baf5bd3-378e-4d25-802a-\
+0b6cab5c1616"],
+
+Cell["\<\
+That is, setting the \"spacetime\" option as one of the list \
+\"metricDictionary\". The options are :\
+\>", "Text",
+ CellChangeTimes->{{3.8119701816334596`*^9, 
+  3.8119701831715155`*^9}},ExpressionUUID->"7e9546e8-ce3a-4826-8d8f-\
+533281010c05"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"?", "metricDictionary"}]], "Input",
+ CellChangeTimes->{{3.811970029174378*^9, 3.811970061987609*^9}, {
+  3.8119719959505634`*^9, 3.8119719994331675`*^9}},
+ CellLabel->"In[3]:=",ExpressionUUID->"06c8ca99-3704-4c6e-999b-ccf8482d3234"],
+
+Cell[BoxData[
+ InterpretationBox[
+  StyleBox[
+   FrameBox[
+    DynamicModuleBox[{System`InformationDump`open$$ = False, 
+     System`InformationDump`mouseOver$$ = False}, 
+     PaneSelectorBox[{True->
+      TagBox[GridBox[{
+         {
+          ItemBox[
+           PaneBox[
+            StyleBox["\<\" Symbol\"\>", "InformationTitleText",
+             StripOnInput->False,
+             BaseStyle -> None],
+            FrameMargins->{{4, 0}, {-1, 1}}],
+           BaseStyle->"InformationTitleBackground",
+           StripOnInput->False], 
+          ItemBox["\<\"\"\>",
+           BaseStyle->"InformationTitleBackground",
+           StripOnInput->False]},
+         {
+          ItemBox[
+           PaneBox[
+            
+            StyleBox["\<\" Dictionary with spacetime names and their metrics. \
+Options of spacetimes are: 'Minkowski Spherical n=4', 'Schwarzschild \
+n=4','Kerr n=4', 'static spherically','AdS Global n=4','Rindler-AdS \
+n=4','Schwarzschild-AdS n=4','Static BTZ n=3','Rindler-AdS n=3.\"\>", 
+             "InformationUsageText",
+             StripOnInput->False,
+             LineSpacing->{1.5, 1.5, 3.}],
+            FrameMargins->{{10, 10}, {8, 10}}],
+           BaseStyle->"InformationUsageSubtitleBackground",
+           StripOnInput->False], 
+          ItemBox["\<\"\"\>",
+           BaseStyle->"InformationUsageSubtitleBackground",
+           StripOnInput->False]},
+         {
+          PaneBox[GridBox[{
+             {
+              
+              DynamicModuleBox[{System`InformationDump`open$$ = {
+               False, False, False, False, False, False, False, False, False, 
+                False, False, False}}, 
+               StyleBox[GridBox[{
+                  {
+                   TagBox[
+                    TooltipBox[
+                    StyleBox["\<\" Full Name\"\>", "InformationRowLabel",
+                    StripOnInput->False],
+                    "\"FullName\"",
+                    TooltipStyle->"TextStyling"],
+                    
+                    Annotation[#, "FullName", 
+                    "Tooltip"]& ], "\<\"ScalarWaveEquation`metricDictionary\"\
+\>"}
+                 },
+                 AutoDelete->False,
+                 GridBoxAlignment->{"Columns" -> {Right, Left}},
+                 GridBoxDividers->None,
+                 GridBoxItemSize->{"Columns" -> {Automatic, Automatic}},
+                 GridBoxSpacings->{"Columns" -> {
+                    Offset[0.27999999999999997`], {
+                    Offset[0.5599999999999999]}, 
+                    Offset[0.27999999999999997`]}, "Rows" -> {
+                    Offset[0.2], {
+                    Offset[0.8]}, 
+                    Offset[0.2]}}], "DialogStyle",
+                StripOnInput->False],
+               DynamicModuleValues:>{}]}
+            },
+            DefaultBaseStyle->"Column",
+            GridBoxAlignment->{"Columns" -> {{Left}}},
+            GridBoxDividers->{"Columns" -> {{False}}, "Rows" -> {{False}}},
+            
+            GridBoxItemSize->{
+             "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}},
+            GridBoxSpacings->{"Columns" -> {
+                Offset[0.27999999999999997`], {
+                 Offset[0.5599999999999999]}, 
+                Offset[0.27999999999999997`]}, "Rows" -> {
+                Offset[0.2], {
+                 Offset[3.6]}, 
+                Offset[0.2]}}],
+           FrameMargins->6], ""},
+         {
+          ItemBox[
+           TagBox[
+            ButtonBox[
+             PaneSelectorBox[{False->
+              
+              DynamicBox[FEPrivate`FrontEndResource[
+               "FEBitmaps", "UpPointerOpener"]], True->
+              
+              DynamicBox[FEPrivate`FrontEndResource[
+               "FEBitmaps", "UpPointerOpenerHot"]]}, Dynamic[
+              System`InformationDump`mouseOver$$]],
+             Alignment->Left,
+             Appearance->{"Default" -> None},
+             ButtonFunction:>FEPrivate`Set[
+              System`InformationDump`open$$, False],
+             Evaluator->Automatic,
+             FrameMargins->{{9, 0}, {0, 0}},
+             ImageMargins->0,
+             ImageSize->Full,
+             Method->"Preemptive"],
+            
+            EventHandlerTag[{
+             "MouseEntered" :> 
+              FEPrivate`Set[System`InformationDump`mouseOver$$, True], 
+              "MouseExited" :> 
+              FEPrivate`Set[System`InformationDump`mouseOver$$, False], 
+              Method -> "Preemptive", PassEventsDown -> Automatic, 
+              PassEventsUp -> True}]],
+           BaseStyle->"InformationTitleBackground",
+           StripOnInput->False], "\[SpanFromLeft]"}
+        },
+        AutoDelete->False,
+        FrameStyle->Directive[
+          GrayLevel[0.8], 
+          Thickness[Tiny]],
+        GridBoxAlignment->{"Columns" -> {Left, Right}, "Rows" -> {{Center}}},
+        GridBoxDividers->{
+         "Columns" -> {{None}}, "Rows" -> {False, {True}, False}},
+        GridBoxItemSize->{
+         "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+       "Grid"], False->
+      TagBox[GridBox[{
+         {
+          ItemBox[
+           PaneBox[
+            StyleBox["\<\" Symbol\"\>", "InformationTitleText",
+             StripOnInput->False],
+            FrameMargins->{{4, 0}, {-1, 1}}],
+           BaseStyle->"InformationTitleBackground",
+           StripOnInput->False], 
+          ItemBox["\<\"\"\>",
+           BaseStyle->"InformationTitleBackground",
+           StripOnInput->False]},
+         {
+          ItemBox[
+           PaneBox[
+            
+            StyleBox["\<\" Dictionary with spacetime names and their metrics. \
+Options of spacetimes are: 'Minkowski Spherical n=4', 'Schwarzschild \
+n=4','Kerr n=4', 'static spherically','AdS Global n=4','Rindler-AdS \
+n=4','Schwarzschild-AdS n=4','Static BTZ n=3','Rindler-AdS n=3.\"\>", 
+             "InformationUsageText",
+             StripOnInput->False,
+             LineSpacing->{1.5, 1.5, 3.}],
+            FrameMargins->{{10, 10}, {8, 10}}],
+           BaseStyle->"InformationUsageSubtitleBackground",
+           StripOnInput->False], 
+          ItemBox["\<\"\"\>",
+           BaseStyle->"InformationUsageSubtitleBackground",
+           StripOnInput->False]},
+         {
+          ItemBox[
+           TagBox[
+            ButtonBox[
+             PaneSelectorBox[{False->
+              
+              DynamicBox[FEPrivate`FrontEndResource[
+               "FEBitmaps", "DownPointerOpener"],
+               ImageSizeCache->{10., {3., 7.}}], True->
+              
+              DynamicBox[FEPrivate`FrontEndResource[
+               "FEBitmaps", "DownPointerOpenerHot"],
+               ImageSizeCache->{10., {3., 7.}}]}, Dynamic[
+              System`InformationDump`mouseOver$$]],
+             Alignment->Left,
+             Appearance->{"Default" -> None},
+             
+             ButtonFunction:>FEPrivate`Set[
+              System`InformationDump`open$$, True],
+             Evaluator->Automatic,
+             FrameMargins->{{9, 0}, {0, 0}},
+             ImageMargins->0,
+             ImageSize->Full,
+             Method->"Preemptive"],
+            
+            EventHandlerTag[{
+             "MouseEntered" :> 
+              FEPrivate`Set[System`InformationDump`mouseOver$$, True], 
+              "MouseExited" :> 
+              FEPrivate`Set[System`InformationDump`mouseOver$$, False], 
+              Method -> "Preemptive", PassEventsDown -> Automatic, 
+              PassEventsUp -> True}]],
+           BaseStyle->"InformationTitleBackground",
+           StripOnInput->False], "\[SpanFromLeft]"}
+        },
+        AutoDelete->False,
+        FrameStyle->Directive[
+          GrayLevel[0.8], 
+          Thickness[Tiny]],
+        GridBoxAlignment->{"Columns" -> {Left, Right}, "Rows" -> {{Center}}},
+        GridBoxDividers->{
+         "Columns" -> {{None}}, "Rows" -> {False, {True}, False}},
+        GridBoxItemSize->{
+         "Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+       "Grid"]}, Dynamic[System`InformationDump`open$$],
+      BaselinePosition->Baseline,
+      FrameMargins->0,
+      ImageSize->Automatic],
+     DynamicModuleValues:>{}],
+    BaseStyle->"InformationGridFrame",
+    StripOnInput->False], "InformationGridPlain",
+   StripOnInput->False],
+  InformationData[
+   Association[
+   "ObjectType" -> "Symbol", "Usage" -> 
+    " Dictionary with spacetime names and their metrics. Options of \
+spacetimes are: 'Minkowski Spherical n=4', 'Schwarzschild n=4','Kerr n=4', \
+'static spherically','AdS Global n=4','Rindler-AdS n=4','Schwarzschild-AdS \
+n=4','Static BTZ n=3','Rindler-AdS n=3.", "Documentation" -> None, 
+    "OwnValues" -> None, "UpValues" -> None, "DownValues" -> None, 
+    "SubValues" -> None, "DefaultValues" -> None, "NValues" -> None, 
+    "FormatValues" -> None, "Options" -> None, "Attributes" -> {}, "FullName" -> 
+    "ScalarWaveEquation`metricDictionary"], False]]], "Output",
+ CellChangeTimes->{{3.8119700305336123`*^9, 3.811970062154937*^9}, 
+   3.811971069256141*^9, 3.811971584604364*^9, 3.8119716213537145`*^9, 
+   3.8119717056067915`*^9, 3.8119717382915344`*^9, 3.811972000306496*^9, {
+   3.8119720749027605`*^9, 3.811972082440849*^9}, 3.811972203914669*^9, 
+   3.81197238145227*^9, 3.81197707246419*^9, 3.8119771031646185`*^9, 
+   3.811977543644703*^9, {3.811978338672819*^9, 3.811978343588258*^9}},
+ CellLabel->"Out[3]=",ExpressionUUID->"e40cf794-4c39-4496-aa2f-9354e24e1546"]
+}, Open  ]],
+
+Cell["So, we have:", "Text",
+ CellChangeTimes->{{3.811970081126966*^9, 
+  3.8119700831182976`*^9}},ExpressionUUID->"ee394dc0-9609-43f1-8980-\
+b78e7c0c20d0"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"ScalarWaveEquation", "[", 
+  RowBox[{
+   RowBox[{"\"\<spacetime\>\"", "\[Rule]", "\"\<Static BTZ n=3\>\""}], ",", 
+   " ", 
+   RowBox[{"\"\<ansatz\>\"", "\[Rule]", 
+    RowBox[{"{", " ", 
+     RowBox[{
+      SuperscriptBox["\[ExponentialE]", 
+       RowBox[{
+        RowBox[{"-", "\[ImaginaryI]"}], " ", "\[Omega]", " ", "t", " "}]], 
+      ",", 
+      RowBox[{"R", "[", "r", "]"}], ",", " ", 
+      RowBox[{"Y", "[", "\[Theta]", "]"}]}], "}"}]}]}], " ", "]"}]], "Input",
+ CellChangeTimes->{{3.8119685333957176`*^9, 3.811968535318429*^9}, {
+   3.811968895771268*^9, 3.811968980786183*^9}, 3.811969219764987*^9, {
+   3.8119695516645184`*^9, 3.811969609304295*^9}, {3.8119722171022396`*^9, 
+   3.8119722250315475`*^9}, {3.8119725257592573`*^9, 
+   3.8119725259072113`*^9}, {3.8119775563806477`*^9, 3.811977557566847*^9}, 
+   3.811978099067834*^9, {3.8119783482301674`*^9, 3.8119783492135334`*^9}, 
+   3.8119784298614693`*^9},
+ CellLabel->"In[2]:=",ExpressionUUID->"f53db22d-5f18-4afc-b625-d4908c1e6a40"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"-", 
+   SuperscriptBox["m", "2"]}], "+", 
+  FractionBox[
+   SuperscriptBox["\[Omega]", "2"], 
+   RowBox[{
+    RowBox[{"-", "M"}], "+", 
+    SuperscriptBox["r", "2"]}]], "+", 
+  FractionBox[
+   RowBox[{
+    RowBox[{
+     RowBox[{"-", "2"}], " ", 
+     RowBox[{"(", 
+      RowBox[{"M", "-", 
+       RowBox[{"2", " ", 
+        SuperscriptBox["r", "2"]}]}], ")"}], " ", 
+     RowBox[{
+      SuperscriptBox["R", "\[Prime]",
+       MultilineFunction->None], "[", "r", "]"}]}], "+", 
+    RowBox[{"r", " ", 
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"-", "M"}], "+", 
+       SuperscriptBox["r", "2"]}], ")"}], " ", 
+     RowBox[{
+      SuperscriptBox["R", "\[Prime]\[Prime]",
+       MultilineFunction->None], "[", "r", "]"}]}]}], 
+   RowBox[{"r", " ", 
+    RowBox[{"R", "[", "r", "]"}]}]], "+", 
+  FractionBox[
+   RowBox[{
+    SuperscriptBox["Y", "\[Prime]\[Prime]",
+     MultilineFunction->None], "[", "\[Theta]", "]"}], 
+   RowBox[{
+    SuperscriptBox["r", "2"], " ", 
+    RowBox[{"Y", "[", "\[Theta]", "]"}]}]]}]], "Output",
+ CellChangeTimes->{{3.811968964846547*^9, 3.8119689820343695`*^9}, 
+   3.8119690967733436`*^9, {3.81196921135868*^9, 3.8119693000665874`*^9}, {
+   3.8119693723552003`*^9, 3.8119694034743*^9}, 3.8119695624084897`*^9, {
+   3.811969597874143*^9, 3.8119696097690973`*^9}, 3.8119697457523055`*^9, 
+   3.8119710834740686`*^9, 3.81197210170912*^9, {3.8119722055322065`*^9, 
+   3.8119722377003365`*^9}, 3.811972283505104*^9, 3.8119723830195665`*^9, 
+   3.8119725265700874`*^9, {3.8119775509691973`*^9, 3.811977558641797*^9}, {
+   3.811978099602955*^9, 3.811978108835013*^9}, {3.811978140964063*^9, 
+   3.8119781601166654`*^9}, 3.811978200886853*^9, 3.8119782758912163`*^9, {
+   3.8119783236712294`*^9, 3.811978350293552*^9}, {3.811978428718399*^9, 
+   3.811978451507145*^9}, {3.811978551912846*^9, 3.811978568878523*^9}},
+ CellLabel->"Out[2]=",ExpressionUUID->"bd107d44-2fdf-466b-8000-1cbe42f36e46"]
+}, Open  ]],
+
+Cell["\<\
+For a non-diagonal metric, it doesn\[CloseCurlyQuote]t automatically simplify \
+the equation, that could take some time...\
+\>", "Text",
+ CellChangeTimes->{{3.8119762902448864`*^9, 3.811976299765672*^9}, {
+  3.811978583753416*^9, 
+  3.81197861871799*^9}},ExpressionUUID->"a9bd6ada-192c-468c-a31d-\
+e766151e98a5"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"ScalarWaveEquation", "[", 
+  RowBox[{
+   RowBox[{"\"\<spacetime\>\"", "\[Rule]", "\"\<Kerr n=4\>\""}], ",", " ", 
+   RowBox[{"\"\<ansatz\>\"", "\[Rule]", 
+    RowBox[{"{", " ", 
+     RowBox[{
+      SuperscriptBox["\[ExponentialE]", 
+       RowBox[{
+        RowBox[{"-", "\[ImaginaryI]"}], " ", "\[Omega]", " ", "t", " "}]], 
+      ",", 
+      RowBox[{"R", "[", "r", "]"}], ",", " ", 
+      RowBox[{"Y", "[", 
+       RowBox[{"\[Theta]", ",", "\[CurlyPhi]"}], "]"}]}], "}"}]}]}], " ", 
+  "]"}]], "Input",
+ CellChangeTimes->{{3.811976307111368*^9, 3.8119763196175175`*^9}},
+ CellLabel->"In[4]:=",ExpressionUUID->"0c3d351d-9951-484b-850c-ce7bcafd6623"],
+
+Cell[BoxData[
+ InterpretationBox[
+  TagBox[
+   FrameBox[GridBox[{
+      {
+       ItemBox[
+        TagBox[
+         RowBox[{
+          RowBox[{"-", 
+           SuperscriptBox["m", "2"]}], "-", 
+          FractionBox[
+           RowBox[{
+            SuperscriptBox["a", "4"], " ", 
+            SuperscriptBox["r", "4"], " ", 
+            SuperscriptBox["\[Omega]", "2"], " ", 
+            SuperscriptBox[
+             RowBox[{"Sin", "[", "\[Theta]", "]"}], "2"]}], 
+           RowBox[{
+            RowBox[{"(", 
+             RowBox[{
+              SuperscriptBox["a", "2"], "-", 
+              RowBox[{"2", " ", "M", " ", "r"}], "+", 
+              SuperscriptBox["r", "2"]}], ")"}], " ", 
+            SuperscriptBox[
+             TemplateBox[{"1"},
+              "OutputSizeLimit`Skeleton"], "2"], " ", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{
+               SuperscriptBox["a", "2"], " ", 
+               SuperscriptBox[
+                RowBox[{"Sin", "[", "\[Theta]", "]"}], "2"]}], "+", 
+              RowBox[{
+               SuperscriptBox["r", "2"], " ", 
+               SuperscriptBox[
+                RowBox[{"Sin", "[", "\[Theta]", "]"}], "2"]}], "-", 
+              FractionBox[
+               TemplateBox[{"1"},
+                "OutputSizeLimit`Skeleton"], 
+               RowBox[{
+                SuperscriptBox["r", "2"], "+", 
+                TemplateBox[{"1"},
+                 "OutputSizeLimit`Skeleton"]}]], "-", 
+              TemplateBox[{"1"},
+               "OutputSizeLimit`Skeleton"], "-", 
+              FractionBox[
+               RowBox[{"8", " ", 
+                TemplateBox[{"3"},
+                 "OutputSizeLimit`Skeleton"], " ", 
+                SuperscriptBox[
+                 RowBox[{
+                  RowBox[{"Sin", 
+                   TemplateBox[{"1"},
+                    "OutputSizeLimit`Skeleton"], 
+                   TemplateBox[{"1"},
+                    "OutputSizeLimit`Skeleton"]}], "]"}], "4"]}], 
+               SuperscriptBox[
+                RowBox[{"(", 
+                 RowBox[{
+                  SuperscriptBox["r", "2"], "+", 
+                  TemplateBox[{"1"},
+                   "OutputSizeLimit`Skeleton"]}], ")"}], "2"]], "+", 
+              FractionBox[
+               RowBox[{"2", " ", 
+                SuperscriptBox["a", "2"], " ", "M", " ", "r", " ", 
+                SuperscriptBox[
+                 RowBox[{"Sin", "[", "\[Theta]", "]"}], "4"]}], 
+               RowBox[{
+                SuperscriptBox["r", "2"], "+", 
+                RowBox[{
+                 SuperscriptBox["a", "2"], " ", 
+                 SuperscriptBox[
+                  RowBox[{"Cos", "[", "\[Theta]", "]"}], "2"]}]}]]}], 
+             ")"}]}]], "+", 
+          FractionBox[
+           RowBox[{"2", " ", 
+            SuperscriptBox["a", "2"], " ", "M", " ", 
+            SuperscriptBox["r", "5"], " ", 
+            SuperscriptBox["\[Omega]", "2"], " ", 
+            SuperscriptBox[
+             RowBox[{"Sin", "[", "\[Theta]", "]"}], "2"]}], 
+           RowBox[{
+            RowBox[{"(", 
+             RowBox[{
+              SuperscriptBox["a", "2"], "-", 
+              RowBox[{"2", " ", "M", " ", "r"}], "+", 
+              SuperscriptBox["r", "2"]}], ")"}], " ", 
+            SuperscriptBox[
+             RowBox[{"(", 
+              TemplateBox[{"1"},
+               "OutputSizeLimit`Skeleton"], ")"}], "2"], " ", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{
+               SuperscriptBox["a", "2"], " ", 
+               SuperscriptBox[
+                TemplateBox[{"1"},
+                 "OutputSizeLimit`Skeleton"], "2"]}], "+", 
+              TemplateBox[{"8"},
+               "OutputSizeLimit`Skeleton"]}], ")"}]}]], "-", 
+          FractionBox[
+           TemplateBox[{"1"},
+            "OutputSizeLimit`Skeleton"], 
+           TemplateBox[{"1"},
+            "OutputSizeLimit`Skeleton"]], "+", 
+          TemplateBox[{"31"},
+           "OutputSizeLimit`Skeleton"], "+", 
+          TemplateBox[{"1"},
+           "OutputSizeLimit`Skeleton"], "-", 
+          FractionBox[
+           RowBox[{"2", " ", 
+            TemplateBox[{"5"},
+             "OutputSizeLimit`Skeleton"], " ", 
+            SuperscriptBox[
+             TemplateBox[{"1"},
+              "OutputSizeLimit`Skeleton"], "4"]}], 
+           TemplateBox[{"1"},
+            "OutputSizeLimit`Skeleton"]], "+", 
+          FractionBox[
+           RowBox[{
+            TemplateBox[{"122"},
+             "OutputSizeLimit`Skeleton"], "+", 
+            TemplateBox[{"1"},
+             "OutputSizeLimit`Skeleton"]}], 
+           RowBox[{"R", "[", "r", "]"}]], "+", 
+          FractionBox[
+           RowBox[{
+            RowBox[{"-", 
+             FractionBox[
+              RowBox[{"4", " ", "\[ImaginaryI]", " ", 
+               SuperscriptBox["a", "3"], " ", "M", " ", 
+               SuperscriptBox["r", "3"], " ", "\[Omega]", " ", 
+               SuperscriptBox[
+                RowBox[{"Sin", "[", "\[Theta]", "]"}], "2"], " ", 
+               RowBox[{
+                SuperscriptBox["Y", 
+                 TagBox[
+                  RowBox[{"(", 
+                   RowBox[{"0", ",", "1"}], ")"}],
+                  Derivative],
+                 MultilineFunction->None], "[", 
+                RowBox[{"\[Theta]", ",", "\[CurlyPhi]"}], "]"}]}], 
+              RowBox[{
+               RowBox[{"(", 
+                RowBox[{
+                 SuperscriptBox["a", "2"], "-", 
+                 RowBox[{"2", " ", "M", " ", "r"}], "+", 
+                 SuperscriptBox["r", "2"]}], ")"}], " ", 
+               SuperscriptBox[
+                TemplateBox[{"1"},
+                 "OutputSizeLimit`Skeleton"], "2"], " ", 
+               RowBox[{"(", 
+                RowBox[{
+                 RowBox[{
+                  SuperscriptBox["a", "2"], " ", 
+                  SuperscriptBox[
+                   RowBox[{"Sin", "[", "\[Theta]", "]"}], "2"]}], "+", 
+                 RowBox[{
+                  SuperscriptBox["r", "2"], " ", 
+                  SuperscriptBox[
+                   RowBox[{"Sin", "[", "\[Theta]", "]"}], "2"]}], "-", 
+                 FractionBox[
+                  TemplateBox[{"1"},
+                   "OutputSizeLimit`Skeleton"], 
+                  TemplateBox[{"1"},
+                   "OutputSizeLimit`Skeleton"]], "-", 
+                 TemplateBox[{"1"},
+                  "OutputSizeLimit`Skeleton"], "-", 
+                 FractionBox[
+                  RowBox[{"8", " ", 
+                   SuperscriptBox["a", "2"], " ", 
+                   SuperscriptBox["M", "2"], " ", 
+                   SuperscriptBox["r", "2"], " ", 
+                   SuperscriptBox[
+                    TemplateBox[{"1"},
+                    "OutputSizeLimit`Skeleton"], "4"]}], 
+                  SuperscriptBox[
+                   RowBox[{"(", 
+                    TemplateBox[{"1"},
+                    "OutputSizeLimit`Skeleton"], ")"}], "2"]], "+", 
+                 FractionBox[
+                  RowBox[{"2", " ", 
+                   SuperscriptBox["a", "2"], " ", "M", " ", "r", " ", 
+                   SuperscriptBox[
+                    RowBox[{"Sin", "[", "\[Theta]", "]"}], "4"]}], 
+                  RowBox[{
+                   SuperscriptBox["r", "2"], "+", 
+                   RowBox[{
+                    SuperscriptBox["a", "2"], " ", 
+                    SuperscriptBox[
+                    TemplateBox[{"1"},
+                    "OutputSizeLimit`Skeleton"], "2"]}]}]]}], ")"}]}]]}], "+", 
+            TemplateBox[{"178"},
+             "OutputSizeLimit`Skeleton"], "+", 
+            FractionBox[
+             RowBox[{"2", " ", 
+              SuperscriptBox["a", "4"], " ", "M", " ", 
+              SuperscriptBox["r", "3"], " ", 
+              SuperscriptBox[
+               TemplateBox[{"1"},
+                "OutputSizeLimit`Skeleton"], "2"], " ", 
+              SuperscriptBox[
+               RowBox[{"Sin", "[", "\[Theta]", "]"}], "4"], " ", 
+              RowBox[{
+               SuperscriptBox["Y", 
+                TagBox[
+                 RowBox[{"(", 
+                  RowBox[{"2", ",", "0"}], ")"}],
+                 Derivative],
+                MultilineFunction->None], "[", 
+               RowBox[{"\[Theta]", ",", "\[CurlyPhi]"}], "]"}]}], 
+             RowBox[{
+              RowBox[{"(", 
+               RowBox[{
+                SuperscriptBox["a", "2"], "-", 
+                RowBox[{"2", " ", "M", " ", "r"}], "+", 
+                SuperscriptBox["r", "2"]}], ")"}], " ", 
+              SuperscriptBox[
+               TemplateBox[{"1"},
+                "OutputSizeLimit`Skeleton"], "3"], " ", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{
+                 SuperscriptBox["a", "2"], " ", 
+                 SuperscriptBox[
+                  TemplateBox[{"1"},
+                   "OutputSizeLimit`Skeleton"], "2"]}], "+", 
+                TemplateBox[{"7"},
+                 "OutputSizeLimit`Skeleton"], "+", 
+                TemplateBox[{"1"},
+                 "OutputSizeLimit`Skeleton"]}], ")"}]}]]}], 
+           RowBox[{"Y", "[", 
+            RowBox[{"\[Theta]", ",", "\[CurlyPhi]"}], "]"}]]}],
+         Short[#, 5]& ],
+        BaseStyle->{Deployed -> False},
+        StripOnInput->False]},
+      {GridBox[{
+         {
+          PaneBox[
+           TagBox[
+            TooltipBox[
+             StyleBox[
+              StyleBox[
+               DynamicBox[ToBoxes[
+                 FEPrivate`FrontEndResource[
+                 "FEStrings", "sizeBriefExplanation"], StandardForm],
+                ImageSizeCache->{48.75, {3., 7.}}],
+               StripOnInput->False,
+               DynamicUpdating->True,
+               LineSpacing->{1, 2},
+               LineIndent->0,
+               LinebreakAdjustments->{1., 100, 0, 0, 0}], "OSLText",
+              StripOnInput->False],
+             StyleBox[
+              DynamicBox[
+               ToBoxes[
+                FEPrivate`FrontEndResource["FEStrings", "sizeExplanation"], 
+                StandardForm]], DynamicUpdating -> True, LineIndent -> 0, 
+              LinebreakAdjustments -> {1., 100, 0, 0, 0}, 
+              LineSpacing -> {1, 2}, StripOnInput -> False]],
+            Annotation[#, 
+             Style[
+              Dynamic[
+               FEPrivate`FrontEndResource["FEStrings", "sizeExplanation"]], 
+              DynamicUpdating -> True, LineIndent -> 0, 
+              LinebreakAdjustments -> {1., 100, 0, 0, 0}, 
+              LineSpacing -> {1, 2}], "Tooltip"]& ],
+           Alignment->Center,
+           BaselinePosition->Baseline,
+           ImageSize->{Automatic, {25, Full}}], 
+          ButtonBox[
+           PaneSelectorBox[{False->
+            StyleBox[
+             StyleBox[
+              DynamicBox[ToBoxes[
+                FEPrivate`FrontEndResource["FEStrings", "sizeShowLess"], 
+                StandardForm],
+               ImageSizeCache->{39., {1., 7.}}],
+              StripOnInput->False,
+              DynamicUpdating->True,
+              LineSpacing->{1, 2},
+              LineIndent->0,
+              LinebreakAdjustments->{1., 100, 0, 0, 0}], "OSLControl",
+             StripOnInput->False], True->
+            StyleBox[
+             StyleBox[
+              DynamicBox[ToBoxes[
+                FEPrivate`FrontEndResource["FEStrings", "sizeShowLess"], 
+                StandardForm]],
+              StripOnInput->False,
+              DynamicUpdating->True,
+              LineSpacing->{1, 2},
+              LineIndent->0,
+              LinebreakAdjustments->{1., 100, 0, 0, 0}], "OSLControlActive",
+             StripOnInput->False]}, Dynamic[
+             CurrentValue["MouseOver"]],
+            Alignment->Center,
+            FrameMargins->0,
+            ImageSize->{Automatic, {25, Full}}],
+           Appearance->None,
+           BaselinePosition->Baseline,
+           
+           ButtonFunction:>OutputSizeLimit`ButtonFunction[
+            OutputSizeLimit`Defer, 4, 20288619598375412550, 5/2],
+           Enabled->True,
+           Evaluator->Automatic,
+           Method->"Queued"], 
+          ButtonBox[
+           PaneSelectorBox[{False->
+            StyleBox[
+             StyleBox[
+              DynamicBox[ToBoxes[
+                FEPrivate`FrontEndResource["FEStrings", "sizeShowMore"], 
+                StandardForm],
+               ImageSizeCache->{46.5, {1., 7.}}],
+              StripOnInput->False,
+              DynamicUpdating->True,
+              LineSpacing->{1, 2},
+              LineIndent->0,
+              LinebreakAdjustments->{1., 100, 0, 0, 0}], "OSLControl",
+             StripOnInput->False], True->
+            StyleBox[
+             StyleBox[
+              DynamicBox[ToBoxes[
+                FEPrivate`FrontEndResource["FEStrings", "sizeShowMore"], 
+                StandardForm]],
+              StripOnInput->False,
+              DynamicUpdating->True,
+              LineSpacing->{1, 2},
+              LineIndent->0,
+              LinebreakAdjustments->{1., 100, 0, 0, 0}], "OSLControlActive",
+             StripOnInput->False]}, Dynamic[
+             CurrentValue["MouseOver"]],
+            Alignment->Center,
+            FrameMargins->0,
+            ImageSize->{Automatic, {25, Full}}],
+           Appearance->None,
+           BaselinePosition->Baseline,
+           
+           ButtonFunction:>OutputSizeLimit`ButtonFunction[
+            OutputSizeLimit`Defer, 4, 20288619598375412550, 5 2],
+           Enabled->True,
+           Evaluator->Automatic,
+           Method->"Queued"], 
+          ButtonBox[
+           PaneSelectorBox[{False->
+            StyleBox[
+             StyleBox[
+              DynamicBox[ToBoxes[
+                FEPrivate`FrontEndResource["FEStrings", "sizeShowAll"], 
+                StandardForm],
+               ImageSizeCache->{33., {1., 7.}}],
+              StripOnInput->False,
+              DynamicUpdating->True,
+              LineSpacing->{1, 2},
+              LineIndent->0,
+              LinebreakAdjustments->{1., 100, 0, 0, 0}], "OSLControl",
+             StripOnInput->False], True->
+            StyleBox[
+             StyleBox[
+              DynamicBox[ToBoxes[
+                FEPrivate`FrontEndResource["FEStrings", "sizeShowAll"], 
+                StandardForm],
+               ImageSizeCache->{33., {1., 7.}}],
+              StripOnInput->False,
+              DynamicUpdating->True,
+              LineSpacing->{1, 2},
+              LineIndent->0,
+              LinebreakAdjustments->{1., 100, 0, 0, 0}], "OSLControlActive",
+             StripOnInput->False]}, Dynamic[
+             CurrentValue["MouseOver"]],
+            Alignment->Center,
+            FrameMargins->0,
+            ImageSize->{Automatic, {25, Full}}],
+           Appearance->None,
+           BaselinePosition->Baseline,
+           
+           ButtonFunction:>OutputSizeLimit`ButtonFunction[
+            OutputSizeLimit`Defer, 4, 20288619598375412550, Infinity],
+           Enabled->True,
+           Evaluator->Automatic,
+           Method->"Queued"], 
+          ButtonBox[
+           PaneSelectorBox[{False->
+            StyleBox[
+             StyleBox[
+              DynamicBox[ToBoxes[
+                FEPrivate`FrontEndResource["FEStrings", "sizeChangeLimit"], 
+                StandardForm],
+               ImageSizeCache->{58.5, {1., 7.}}],
+              StripOnInput->False,
+              DynamicUpdating->True,
+              LineSpacing->{1, 2},
+              LineIndent->0,
+              LinebreakAdjustments->{1., 100, 0, 0, 0}], "OSLControl",
+             StripOnInput->False], True->
+            StyleBox[
+             StyleBox[
+              DynamicBox[ToBoxes[
+                FEPrivate`FrontEndResource["FEStrings", "sizeChangeLimit"], 
+                StandardForm],
+               ImageSizeCache->{58.5, {1., 7.}}],
+              StripOnInput->False,
+              DynamicUpdating->True,
+              LineSpacing->{1, 2},
+              LineIndent->0,
+              LinebreakAdjustments->{1., 100, 0, 0, 0}], "OSLControlActive",
+             StripOnInput->False]}, Dynamic[
+             CurrentValue["MouseOver"]],
+            Alignment->Center,
+            FrameMargins->0,
+            ImageSize->{Automatic, {25, Full}}],
+           Appearance->None,
+           BaselinePosition->Baseline,
+           ButtonFunction:>FrontEndExecute[{
+              FrontEnd`SetOptions[
+              FrontEnd`$FrontEnd, 
+               FrontEnd`PreferencesSettings -> {"Page" -> "Advanced"}], 
+              FrontEnd`FrontEndToken["PreferencesDialog"]}],
+           Evaluator->None,
+           Method->"Preemptive"]}
+        },
+        AutoDelete->False,
+        FrameStyle->GrayLevel[0.85],
+        GridBoxDividers->{"Columns" -> {False, {True}}},
+        GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}},
+        GridBoxSpacings->{"Columns" -> {{2}}}]}
+     },
+     DefaultBaseStyle->"Column",
+     GridBoxAlignment->{"Columns" -> {{Left}}, "Rows" -> {{Baseline}}},
+     GridBoxDividers->{"Columns" -> {{False}}, "Rows" -> {{False}}},
+     GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{1.}}},
+     GridBoxSpacings->{"Columns" -> {
+         Offset[0.27999999999999997`], {
+          Offset[0.5599999999999999]}, 
+         Offset[0.27999999999999997`]}, "Rows" -> {
+         Offset[0.2], 
+         Offset[1.2], {
+          Offset[0.4]}, 
+         Offset[0.2]}}],
+    BaseStyle->"OutputSizeLimit",
+    FrameMargins->{{12, 12}, {0, 15}},
+    FrameStyle->GrayLevel[0.85],
+    RoundingRadius->5,
+    StripOnInput->False],
+   Deploy,
+   DefaultBaseStyle->"Deploy"],
+  If[20288619598375412550 === $SessionID, 
+   Out[4], Message[
+     MessageName[Syntax, "noinfoker"]]; Missing["NotAvailable"]; 
+   Null]]], "Output",
+ CellChangeTimes->{3.811977069910266*^9, 3.811977286343986*^9, 
+  3.8119775469888406`*^9, 3.8119781427140417`*^9, 3.8119782721282797`*^9, 
+  3.811978626741529*^9},
+ CellLabel->"Out[4]=",ExpressionUUID->"caf6517f-0d3a-47e7-8459-82e09396cfe1"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[StyleBox["By giving the diagonal of a diagonal metric.",
+ FontColor->RGBColor[
+  0.7764705882352941, 0., 0.7764705882352941]]], "Subsubsection",
+ CellChangeTimes->{{3.811970166494561*^9, 3.8119701726135197`*^9}, {
+  3.8119702133981543`*^9, 
+  3.811970234973811*^9}},ExpressionUUID->"b455d6bf-146a-4c23-9e50-\
+b145175e592c"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"ScalarWaveEquation", "[", 
+  RowBox[{
+   RowBox[{"\"\<diagonal_metric\>\"", "\[Rule]", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"-", 
+       RowBox[{"(", 
+        RowBox[{"1", "-", 
+         FractionBox[
+          RowBox[{"2", "M"}], "r"], "+", 
+         RowBox[{"k", " ", 
+          SuperscriptBox["r", "2"]}]}], ")"}]}], ",", 
+      SuperscriptBox[
+       RowBox[{"(", 
+        RowBox[{"1", "-", 
+         FractionBox[
+          RowBox[{"2", "M"}], "r"], "+", 
+         RowBox[{"k", " ", 
+          SuperscriptBox["r", "2"]}]}], ")"}], 
+       RowBox[{"-", "1"}]], ",", 
+      SuperscriptBox["r", "2"], ",", 
+      RowBox[{
+       SuperscriptBox["r", "2"], 
+       SuperscriptBox[
+        RowBox[{"Sin", "[", "\[Theta]", "]"}], "2"]}]}], "}"}]}], " ", ",", 
+   " ", 
+   RowBox[{"\"\<ansatz\>\"", "\[Rule]", 
+    RowBox[{"{", " ", 
+     RowBox[{
+      SuperscriptBox["\[ExponentialE]", 
+       RowBox[{
+        RowBox[{"-", "\[ImaginaryI]"}], " ", "\[Omega]", " ", "t", " "}]], 
+      ",", 
+      RowBox[{"R", "[", "r", "]"}], ",", " ", 
+      RowBox[{"Y", "[", 
+       RowBox[{"\[Theta]", ",", "\[CurlyPhi]"}], "]"}]}], "}"}]}]}], 
+  "]"}]], "Input",
+ CellChangeTimes->{{3.8119675617618575`*^9, 3.8119675971470804`*^9}, {
+  3.8119697886422205`*^9, 3.8119698446635365`*^9}},
+ CellLabel->"In[26]:=",ExpressionUUID->"bcdc8425-9e95-4297-859e-a2c30e99b5f9"],
+
+Cell[BoxData[
+ RowBox[{
+  FractionBox[
+   RowBox[{
+    RowBox[{
+     SuperscriptBox["m", "2"], " ", 
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"2", " ", "M"}], "-", "r", "-", 
+       RowBox[{"k", " ", 
+        SuperscriptBox["r", "3"]}]}], ")"}]}], "+", 
+    RowBox[{"r", " ", 
+     SuperscriptBox["\[Omega]", "2"]}]}], 
+   RowBox[{
+    RowBox[{
+     RowBox[{"-", "2"}], " ", "M"}], "+", "r", "+", 
+    RowBox[{"k", " ", 
+     SuperscriptBox["r", "3"]}]}]], "+", 
+  FractionBox[
+   RowBox[{
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{"2", " ", "M"}], "-", 
+      RowBox[{"r", " ", 
+       RowBox[{"(", 
+        RowBox[{"1", "+", 
+         RowBox[{"k", " ", 
+          SuperscriptBox["r", "2"]}]}], ")"}]}]}], ")"}], " ", 
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{"6", " ", "M"}], "-", 
+         RowBox[{"4", " ", "r"}], "-", 
+         RowBox[{"6", " ", "k", " ", 
+          SuperscriptBox["r", "3"]}]}], ")"}], " ", 
+       RowBox[{
+        SuperscriptBox["R", "\[Prime]",
+         MultilineFunction->None], "[", "r", "]"}]}], "-", 
+      RowBox[{"r", " ", 
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"-", "2"}], " ", "M"}], "+", "r", "+", 
+         RowBox[{"k", " ", 
+          SuperscriptBox["r", "3"]}]}], ")"}], " ", 
+       RowBox[{
+        SuperscriptBox["R", "\[Prime]\[Prime]",
+         MultilineFunction->None], "[", "r", "]"}]}]}], ")"}]}], 
+   RowBox[{
+    SuperscriptBox["r", "2"], " ", 
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"-", "2"}], " ", "M"}], "+", "r", "+", 
+      RowBox[{"k", " ", 
+       SuperscriptBox["r", "3"]}]}], ")"}], " ", 
+    RowBox[{"R", "[", "r", "]"}]}]], "+", 
+  FractionBox[
+   RowBox[{
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"-", "2"}], " ", "M"}], "+", 
+      RowBox[{"r", " ", 
+       RowBox[{"(", 
+        RowBox[{"1", "+", 
+         RowBox[{"k", " ", 
+          SuperscriptBox["r", "2"]}]}], ")"}]}]}], ")"}], " ", 
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{
+       SuperscriptBox[
+        RowBox[{"Csc", "[", "\[Theta]", "]"}], "2"], " ", 
+       RowBox[{
+        SuperscriptBox["Y", 
+         TagBox[
+          RowBox[{"(", 
+           RowBox[{"0", ",", "2"}], ")"}],
+          Derivative],
+         MultilineFunction->None], "[", 
+        RowBox[{"\[Theta]", ",", "\[CurlyPhi]"}], "]"}]}], "+", 
+      RowBox[{"2", " ", 
+       RowBox[{"Cot", "[", "\[Theta]", "]"}], " ", 
+       RowBox[{
+        SuperscriptBox["Y", 
+         TagBox[
+          RowBox[{"(", 
+           RowBox[{"1", ",", "0"}], ")"}],
+          Derivative],
+         MultilineFunction->None], "[", 
+        RowBox[{"\[Theta]", ",", "\[CurlyPhi]"}], "]"}]}], "+", 
+      RowBox[{
+       SuperscriptBox["Y", 
+        TagBox[
+         RowBox[{"(", 
+          RowBox[{"2", ",", "0"}], ")"}],
+         Derivative],
+        MultilineFunction->None], "[", 
+       RowBox[{"\[Theta]", ",", "\[CurlyPhi]"}], "]"}]}], ")"}]}], 
+   RowBox[{
+    SuperscriptBox["r", "2"], " ", 
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"-", "2"}], " ", "M"}], "+", "r", "+", 
+      RowBox[{"k", " ", 
+       SuperscriptBox["r", "3"]}]}], ")"}], " ", 
+    RowBox[{"Y", "[", 
+     RowBox[{"\[Theta]", ",", "\[CurlyPhi]"}], "]"}]}]]}]], "Output",
+ CellChangeTimes->{{3.8119675769277306`*^9, 3.811967597723176*^9}, 
+   3.8119676321315193`*^9, {3.8119698361821575`*^9, 3.811969847355091*^9}},
+ CellLabel->"Out[26]=",ExpressionUUID->"b3a2ad0c-1097-47f1-a479-cf56a2a824ce"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[StyleBox["By giving the full metric.",
+ FontColor->RGBColor[
+  0.7764705882352941, 0., 0.7764705882352941]]], "Subsubsection",
+ CellChangeTimes->{{3.811970166494561*^9, 3.8119701726135197`*^9}, {
+  3.8119702133981543`*^9, 
+  3.811970249061366*^9}},ExpressionUUID->"3151f513-9e6a-44a8-a089-\
+b73c4f240f05"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"ScalarWaveEquation", "[", 
+  RowBox[{
+   RowBox[{"\"\<metric\>\"", "\[Rule]", 
+    RowBox[{"DiagonalMatrix", "[", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"-", 
+        RowBox[{"f", "[", "r", "]"}]}], ",", 
+       FractionBox["1", 
+        RowBox[{"f", "[", "r", "]"}]], ",", 
+       SuperscriptBox["r", "2"], ",", 
+       RowBox[{
+        SuperscriptBox["r", "2"], 
+        SuperscriptBox[
+         RowBox[{"Sin", "[", "\[Theta]", "]"}], "2"]}]}], "}"}], "]"}]}], " ",
+    ",", " ", 
+   RowBox[{"\"\<ansatz\>\"", "\[Rule]", 
+    RowBox[{"{", " ", 
+     RowBox[{
+      SuperscriptBox["\[ExponentialE]", 
+       RowBox[{
+        RowBox[{"-", "\[ImaginaryI]"}], " ", "\[Omega]", " ", "t", " "}]], 
+      ",", 
+      RowBox[{"R", "[", "r", "]"}], ",", " ", 
+      RowBox[{"Y", "[", 
+       RowBox[{"\[Theta]", ",", "\[CurlyPhi]"}], "]"}]}], "}"}]}]}], 
+  "]"}]], "Input",
+ CellChangeTimes->{{3.8119659577849593`*^9, 3.811965964801936*^9}, {
+   3.8119662128678055`*^9, 3.8119662295224476`*^9}, 3.8119662605696754`*^9, {
+   3.811966315695868*^9, 3.8119663336814976`*^9}, {3.8119668066941414`*^9, 
+   3.811966875422715*^9}, {3.811966960006397*^9, 3.8119669682442164`*^9}, {
+   3.8119672879749947`*^9, 3.8119672992907543`*^9}},
+ CellLabel->"In[47]:=",ExpressionUUID->"f8ea01f3-9ece-4769-88b0-9ab56561c2f7"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"-", 
+   SuperscriptBox["m", "2"]}], "+", 
+  FractionBox[
+   SuperscriptBox["\[Omega]", "2"], 
+   RowBox[{"f", "[", "r", "]"}]], "+", 
+  FractionBox[
+   RowBox[{
+    RowBox[{
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"4", " ", 
+        RowBox[{"f", "[", "r", "]"}]}], "+", 
+       RowBox[{"r", " ", 
+        RowBox[{
+         SuperscriptBox["f", "\[Prime]",
+          MultilineFunction->None], "[", "r", "]"}]}]}], ")"}], " ", 
+     RowBox[{
+      SuperscriptBox["R", "\[Prime]",
+       MultilineFunction->None], "[", "r", "]"}]}], "+", 
+    RowBox[{"r", " ", 
+     RowBox[{"f", "[", "r", "]"}], " ", 
+     RowBox[{
+      SuperscriptBox["R", "\[Prime]\[Prime]",
+       MultilineFunction->None], "[", "r", "]"}]}]}], 
+   RowBox[{"r", " ", 
+    RowBox[{"R", "[", "r", "]"}]}]], "+", 
+  FractionBox[
+   RowBox[{
+    RowBox[{
+     SuperscriptBox[
+      RowBox[{"Csc", "[", "\[Theta]", "]"}], "2"], " ", 
+     RowBox[{
+      SuperscriptBox["Y", 
+       TagBox[
+        RowBox[{"(", 
+         RowBox[{"0", ",", "2"}], ")"}],
+        Derivative],
+       MultilineFunction->None], "[", 
+      RowBox[{"\[Theta]", ",", "\[CurlyPhi]"}], "]"}]}], "+", 
+    RowBox[{"2", " ", 
+     RowBox[{"Cot", "[", "\[Theta]", "]"}], " ", 
+     RowBox[{
+      SuperscriptBox["Y", 
+       TagBox[
+        RowBox[{"(", 
+         RowBox[{"1", ",", "0"}], ")"}],
+        Derivative],
+       MultilineFunction->None], "[", 
+      RowBox[{"\[Theta]", ",", "\[CurlyPhi]"}], "]"}]}], "+", 
+    RowBox[{
+     SuperscriptBox["Y", 
+      TagBox[
+       RowBox[{"(", 
+        RowBox[{"2", ",", "0"}], ")"}],
+       Derivative],
+      MultilineFunction->None], "[", 
+     RowBox[{"\[Theta]", ",", "\[CurlyPhi]"}], "]"}]}], 
+   RowBox[{
+    SuperscriptBox["r", "2"], " ", 
+    RowBox[{"Y", "[", 
+     RowBox[{"\[Theta]", ",", "\[CurlyPhi]"}], "]"}]}]]}]], "Output",
+ CellChangeTimes->{{3.8119662371289263`*^9, 3.8119662730000534`*^9}, 
+   3.811966335008129*^9, 3.811966486704365*^9, 3.8119665214444284`*^9, 
+   3.8119665688278484`*^9, {3.811966803348923*^9, 3.8119668322207193`*^9}, 
+   3.8119668788133535`*^9, 3.811967136170638*^9, 3.8119671717544484`*^9, 
+   3.8119673011361823`*^9, 3.811967365903555*^9, 3.8119675530405984`*^9, 
+   3.81196805411654*^9, 3.811969781293435*^9, 3.8119710931095953`*^9},
+ CellLabel->"Out[47]=",ExpressionUUID->"5f3a3717-a4df-4bb1-bd34-ce48838274ea"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[StyleBox["The other options: ansatz, coordinates, Lorentzian.",
+ FontColor->RGBColor[
+  0.49411764705882355`, 0.13333333333333333`, 
+   0.07058823529411765]]], "Section",
+ CellChangeTimes->{{3.8119699331260815`*^9, 3.811970020216326*^9}, {
+   3.811970074069496*^9, 3.8119700773024535`*^9}, {3.8119701808606973`*^9, 
+   3.81197018950849*^9}, {3.8119725007500496`*^9, 3.811972510171292*^9}, {
+   3.811972809033696*^9, 3.8119728533628626`*^9}, {3.811972989033469*^9, 
+   3.8119729960012045`*^9}, 
+   3.8119730746203375`*^9},ExpressionUUID->"e2fb7e8d-596b-40e4-8729-\
+c6b66b7d39d2"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Options", "[", "ScalarWaveEquation", "]"}]], "Input",
+ CellChangeTimes->{{3.8119730005224257`*^9, 3.8119730046130686`*^9}},
+ CellLabel->"In[3]:=",ExpressionUUID->"cee8dfe0-8221-401e-96f3-e4a3b3d1d492"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"\<\"spacetime\"\>", "\[Rule]", 
+    RowBox[{"{", "}"}]}], ",", 
+   RowBox[{"\<\"diagonal_metric\"\>", "\[Rule]", 
+    RowBox[{"{", "}"}]}], ",", 
+   RowBox[{"\<\"metric\"\>", "\[Rule]", 
+    RowBox[{"{", "}"}]}], ",", 
+   RowBox[{"\<\"coordinates\"\>", "\[Rule]", 
+    RowBox[{"{", 
+     RowBox[{"t", ",", "r", ",", "\[Theta]", ",", "\[CurlyPhi]"}], "}"}]}], 
+   ",", 
+   RowBox[{"\<\"Lorentzian\"\>", "\[Rule]", 
+    RowBox[{"-", "1"}]}], ",", 
+   RowBox[{"\<\"ansatz\"\>", "\[Rule]", 
+    RowBox[{"{", "}"}]}]}], "}"}]], "Output",
+ CellChangeTimes->{3.8119731101770716`*^9, 3.8119732012320127`*^9, 
+  3.811973245216349*^9, 3.811973546433095*^9},
+ CellLabel->"Out[3]=",ExpressionUUID->"6b524644-1cb3-4618-8483-1341aa2d7e46"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[StyleBox["The ansatz.",
+ FontColor->RGBColor[
+  0.7764705882352941, 0., 0.7764705882352941]]], "Subsubsection",
+ CellChangeTimes->{{3.811970166494561*^9, 3.8119701726135197`*^9}, {
+  3.8119702133981543`*^9, 3.811970249061366*^9}, {3.811974261263875*^9, 
+  3.811974263422903*^9}},ExpressionUUID->"9776e87f-f443-407f-8709-\
+22b47f7944b0"],
+
+Cell["One does not have to chose an ansatz:", "Text",
+ CellChangeTimes->{{3.8119700866303205`*^9, 3.811970123621664*^9}, {
+  3.8119723952658024`*^9, 3.811972418474102*^9}, {3.811972512554211*^9, 
+  3.811972514081403*^9}},ExpressionUUID->"6cedc09f-6b41-453f-86f7-\
+f23cf893a6e0"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"ScalarWaveEquation", "[", 
+  RowBox[{"\"\<spacetime\>\"", "\[Rule]", "\"\<Static BTZ n=3\>\""}], 
+  "]"}]], "Input",
+ CellChangeTimes->{3.8119701064236207`*^9},
+ CellLabel->"In[5]:=",ExpressionUUID->"58911ab8-7036-4531-a413-7e0d3205ded4"],
+
+Cell[BoxData[
+ FractionBox[
+  RowBox[{
+   RowBox[{
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{"-", "M"}], "+", 
+      SuperscriptBox["r", "2"]}], ")"}], " ", 
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"-", 
+        SuperscriptBox["m", "2"]}], " ", 
+       SuperscriptBox["r", "2"], " ", 
+       RowBox[{"\[CapitalPsi]", "[", 
+        RowBox[{"{", 
+         RowBox[{"t", ",", "r", ",", "\[Theta]"}], "}"}], "]"}]}], "+", 
+      RowBox[{
+       SuperscriptBox["\[CapitalPsi]", 
+        TagBox[
+         RowBox[{"(", 
+          RowBox[{"{", 
+           RowBox[{"0", ",", "0", ",", "2"}], "}"}], ")"}],
+         Derivative],
+        MultilineFunction->None], "[", 
+       RowBox[{"{", 
+        RowBox[{"t", ",", "r", ",", "\[Theta]"}], "}"}], "]"}], "-", 
+      RowBox[{"2", " ", "r", " ", 
+       RowBox[{"(", 
+        RowBox[{"M", "-", 
+         RowBox[{"2", " ", 
+          SuperscriptBox["r", "2"]}]}], ")"}], " ", 
+       RowBox[{
+        SuperscriptBox["\[CapitalPsi]", 
+         TagBox[
+          RowBox[{"(", 
+           RowBox[{"{", 
+            RowBox[{"0", ",", "1", ",", "0"}], "}"}], ")"}],
+          Derivative],
+         MultilineFunction->None], "[", 
+        RowBox[{"{", 
+         RowBox[{"t", ",", "r", ",", "\[Theta]"}], "}"}], "]"}]}]}], ")"}]}], 
+   "+", 
+   RowBox[{
+    SuperscriptBox[
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"-", "M"}], " ", "r"}], "+", 
+       SuperscriptBox["r", "3"]}], ")"}], "2"], " ", 
+    RowBox[{
+     SuperscriptBox["\[CapitalPsi]", 
+      TagBox[
+       RowBox[{"(", 
+        RowBox[{"{", 
+         RowBox[{"0", ",", "2", ",", "0"}], "}"}], ")"}],
+       Derivative],
+      MultilineFunction->None], "[", 
+     RowBox[{"{", 
+      RowBox[{"t", ",", "r", ",", "\[Theta]"}], "}"}], "]"}]}], "-", 
+   RowBox[{
+    SuperscriptBox["r", "2"], " ", 
+    RowBox[{
+     SuperscriptBox["\[CapitalPsi]", 
+      TagBox[
+       RowBox[{"(", 
+        RowBox[{"{", 
+         RowBox[{"2", ",", "0", ",", "0"}], "}"}], ")"}],
+       Derivative],
+      MultilineFunction->None], "[", 
+     RowBox[{"{", 
+      RowBox[{"t", ",", "r", ",", "\[Theta]"}], "}"}], "]"}]}]}], 
+  RowBox[{
+   RowBox[{
+    RowBox[{"-", "M"}], " ", 
+    SuperscriptBox["r", "2"]}], "+", 
+   SuperscriptBox["r", "4"]}]]], "Output",
+ CellChangeTimes->{3.8119701075059414`*^9, 3.8119710810209956`*^9, 
+  3.811972421173309*^9},
+ CellLabel->"Out[5]=",ExpressionUUID->"965986f5-0617-483b-ae27-8c3629b026ef"]
+}, Open  ]],
+
+Cell["\<\
+But using an ansatz can make it so much simpler right? Well, assuming \
+separation of variables, one should write the separating functions separated, \
+as shown before. Let\[CloseCurlyQuote]s see the wave equation on the \
+four-dimensional Minkowski spacetime with spherical coordinates, assuming \
+separation of variables:\
+\>", "Text",
+ CellChangeTimes->{{3.8119735967526894`*^9, 
+  3.8119737369279547`*^9}},ExpressionUUID->"01457409-7a85-401e-be08-\
+7913f4e863a3"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"ScalarWaveEquation", "[", 
+  RowBox[{
+   RowBox[{
+   "\"\<spacetime\>\"", "\[Rule]", "\"\<Minkowski Spherical n=4\>\""}], ",", 
+   " ", 
+   RowBox[{"\"\<ansatz\>\"", "\[Rule]", 
+    RowBox[{"{", " ", 
+     RowBox[{
+      SuperscriptBox["\[ExponentialE]", 
+       RowBox[{
+        RowBox[{"-", "\[ImaginaryI]"}], " ", "\[Omega]", " ", "t", " "}]], 
+      ",", 
+      RowBox[{"R", "[", "r", "]"}], ",", " ", 
+      RowBox[{"Y", "[", 
+       RowBox[{"\[Theta]", ",", "\[CurlyPhi]"}], "]"}]}], "}"}]}]}], " ", 
+  "]"}]], "Input",
+ CellChangeTimes->{{3.8119737404657946`*^9, 3.8119737570661726`*^9}},
+ CellLabel->"In[6]:=",ExpressionUUID->"4c7d61e4-cc4c-4497-9ee4-97b2dca5fe94"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"-", 
+   SuperscriptBox["m", "2"]}], "+", 
+  SuperscriptBox["\[Omega]", "2"], "+", 
+  FractionBox[
+   RowBox[{
+    RowBox[{"4", " ", 
+     RowBox[{
+      SuperscriptBox["R", "\[Prime]",
+       MultilineFunction->None], "[", "r", "]"}]}], "+", 
+    RowBox[{"r", " ", 
+     RowBox[{
+      SuperscriptBox["R", "\[Prime]\[Prime]",
+       MultilineFunction->None], "[", "r", "]"}]}]}], 
+   RowBox[{"r", " ", 
+    RowBox[{"R", "[", "r", "]"}]}]], "+", 
+  FractionBox[
+   RowBox[{
+    RowBox[{
+     SuperscriptBox[
+      RowBox[{"Csc", "[", "\[Theta]", "]"}], "2"], " ", 
+     RowBox[{
+      SuperscriptBox["Y", 
+       TagBox[
+        RowBox[{"(", 
+         RowBox[{"0", ",", "2"}], ")"}],
+        Derivative],
+       MultilineFunction->None], "[", 
+      RowBox[{"\[Theta]", ",", "\[CurlyPhi]"}], "]"}]}], "+", 
+    RowBox[{"2", " ", 
+     RowBox[{"Cot", "[", "\[Theta]", "]"}], " ", 
+     RowBox[{
+      SuperscriptBox["Y", 
+       TagBox[
+        RowBox[{"(", 
+         RowBox[{"1", ",", "0"}], ")"}],
+        Derivative],
+       MultilineFunction->None], "[", 
+      RowBox[{"\[Theta]", ",", "\[CurlyPhi]"}], "]"}]}], "+", 
+    RowBox[{
+     SuperscriptBox["Y", 
+      TagBox[
+       RowBox[{"(", 
+        RowBox[{"2", ",", "0"}], ")"}],
+       Derivative],
+      MultilineFunction->None], "[", 
+     RowBox[{"\[Theta]", ",", "\[CurlyPhi]"}], "]"}]}], 
+   RowBox[{
+    SuperscriptBox["r", "2"], " ", 
+    RowBox[{"Y", "[", 
+     RowBox[{"\[Theta]", ",", "\[CurlyPhi]"}], "]"}]}]]}]], "Output",
+ CellChangeTimes->{3.8119737591511817`*^9},
+ CellLabel->"Out[6]=",ExpressionUUID->"7628f3c6-8524-4e25-981c-2992ded0768a"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[StyleBox["The coordinates.",
+ FontColor->RGBColor[
+  0.7764705882352941, 0., 0.7764705882352941]]], "Subsubsection",
+ CellChangeTimes->{{3.811970166494561*^9, 3.8119701726135197`*^9}, {
+  3.8119702133981543`*^9, 3.811970249061366*^9}, {3.811974261263875*^9, 
+  3.811974277342865*^9}},ExpressionUUID->"5e8aff79-3396-43df-8d31-\
+ba9d00b7e64c"],
+
+Cell["\<\
+The default coordinates are  {t,r,\[Theta],\[CurlyPhi]}. If the metric is \
+written in other coordinates, or is higher dimensional, the coordinates must \
+be specified. 
+Let\[CloseCurlyQuote]s see the five dimensional Minkowski spacetime as an \
+example:\
+\>", "Text",
+ CellChangeTimes->{{3.81197253642699*^9, 3.8119726201443624`*^9}, {
+  3.8119727051771045`*^9, 
+  3.8119727203680253`*^9}},ExpressionUUID->"6dcb0e6e-f501-4b1b-af2d-\
+802269886877"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"ScalarWaveEquation", "[", 
+  RowBox[{
+   RowBox[{"\"\<metric\>\"", "\[Rule]", 
+    RowBox[{"DiagonalMatrix", "[", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"-", "1"}], ",", "1", ",", "1", ",", "1", ",", "1"}], " ", 
+      "}"}], "]"}]}], " ", ",", " ", 
+   RowBox[{"\"\<coordinates\>\"", "\[Rule]", 
+    RowBox[{"{", 
+     RowBox[{"x0", ",", "x1", ",", "x2", ",", "x3", ",", "x4"}], "}"}]}]}], 
+  "]"}]], "Input",
+ CellChangeTimes->{{3.8119726416023784`*^9, 3.8119726420345545`*^9}, {
+  3.8119727275786295`*^9, 3.811972780162851*^9}},
+ CellLabel->"In[7]:=",ExpressionUUID->"acb647e3-400a-4dac-bbaa-5de2eda155a9"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"-", 
+    SuperscriptBox["m", "2"]}], " ", 
+   RowBox[{"\[CapitalPsi]", "[", 
+    RowBox[{"{", 
+     RowBox[{"x0", ",", "x1", ",", "x2", ",", "x3", ",", "x4"}], "}"}], 
+    "]"}]}], "+", 
+  RowBox[{
+   SuperscriptBox["\[CapitalPsi]", 
+    TagBox[
+     RowBox[{"(", 
+      RowBox[{"{", 
+       RowBox[{"0", ",", "0", ",", "0", ",", "0", ",", "2"}], "}"}], ")"}],
+     Derivative],
+    MultilineFunction->None], "[", 
+   RowBox[{"{", 
+    RowBox[{"x0", ",", "x1", ",", "x2", ",", "x3", ",", "x4"}], "}"}], "]"}], 
+  "+", 
+  RowBox[{
+   SuperscriptBox["\[CapitalPsi]", 
+    TagBox[
+     RowBox[{"(", 
+      RowBox[{"{", 
+       RowBox[{"0", ",", "0", ",", "0", ",", "2", ",", "0"}], "}"}], ")"}],
+     Derivative],
+    MultilineFunction->None], "[", 
+   RowBox[{"{", 
+    RowBox[{"x0", ",", "x1", ",", "x2", ",", "x3", ",", "x4"}], "}"}], "]"}], 
+  "+", 
+  RowBox[{
+   SuperscriptBox["\[CapitalPsi]", 
+    TagBox[
+     RowBox[{"(", 
+      RowBox[{"{", 
+       RowBox[{"0", ",", "0", ",", "2", ",", "0", ",", "0"}], "}"}], ")"}],
+     Derivative],
+    MultilineFunction->None], "[", 
+   RowBox[{"{", 
+    RowBox[{"x0", ",", "x1", ",", "x2", ",", "x3", ",", "x4"}], "}"}], "]"}], 
+  "+", 
+  RowBox[{
+   SuperscriptBox["\[CapitalPsi]", 
+    TagBox[
+     RowBox[{"(", 
+      RowBox[{"{", 
+       RowBox[{"0", ",", "2", ",", "0", ",", "0", ",", "0"}], "}"}], ")"}],
+     Derivative],
+    MultilineFunction->None], "[", 
+   RowBox[{"{", 
+    RowBox[{"x0", ",", "x1", ",", "x2", ",", "x3", ",", "x4"}], "}"}], "]"}], 
+  "-", 
+  RowBox[{
+   SuperscriptBox["\[CapitalPsi]", 
+    TagBox[
+     RowBox[{"(", 
+      RowBox[{"{", 
+       RowBox[{"2", ",", "0", ",", "0", ",", "0", ",", "0"}], "}"}], ")"}],
+     Derivative],
+    MultilineFunction->None], "[", 
+   RowBox[{"{", 
+    RowBox[{"x0", ",", "x1", ",", "x2", ",", "x3", ",", "x4"}], "}"}], "]"}]}]
+  ], "Output",
+ CellChangeTimes->{3.8119727805479565`*^9},
+ CellLabel->"Out[7]=",ExpressionUUID->"d344e226-d266-4052-b17a-b5485ff4a207"]
+}, Open  ]],
+
+Cell["Example of plane wave eigenmodes :", "Text",
+ CellChangeTimes->{{3.811975261706892*^9, 
+  3.811975266861676*^9}},ExpressionUUID->"cd96fb4b-83b4-4ee2-9622-\
+245ea37be5f1"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"weq", "=", 
+  RowBox[{
+   RowBox[{"ScalarWaveEquation", "[", 
+    RowBox[{
+     RowBox[{"\"\<metric\>\"", "\[Rule]", 
+      RowBox[{"DiagonalMatrix", "[", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"-", "1"}], ",", "1"}], "}"}], "]"}]}], " ", ",", " ", 
+     RowBox[{"\"\<coordinates\>\"", "\[Rule]", 
+      RowBox[{"{", 
+       RowBox[{"t", ",", "x"}], "}"}]}], ",", 
+     RowBox[{"\"\<ansatz\>\"", "\[Rule]", 
+      RowBox[{"{", 
+       RowBox[{
+        SuperscriptBox["\[ExponentialE]", 
+         RowBox[{
+          RowBox[{"-", "\[ImaginaryI]"}], " ", "v", " ", "t"}]], ",", 
+        RowBox[{"X", "[", "x", "]"}]}], "}"}]}]}], "]"}], "/.", 
+   RowBox[{"m", "\[Rule]", "0"}]}]}]], "Input",
+ CellChangeTimes->{{3.811973166849699*^9, 3.8119731862902193`*^9}, {
+   3.811973274881627*^9, 3.8119732757618847`*^9}, {3.8119734557529774`*^9, 
+   3.8119734611124945`*^9}, {3.811973549514805*^9, 3.8119735767858686`*^9}, {
+   3.8119737826447964`*^9, 3.8119738031769714`*^9}, {3.8119739393152447`*^9, 
+   3.811973951917584*^9}, {3.8119740268686547`*^9, 3.8119740299378476`*^9}, {
+   3.811974228139526*^9, 3.8119742293757677`*^9}, 3.81197496011028*^9, {
+   3.8119751094568386`*^9, 3.8119751097676105`*^9}, {3.8119752348963394`*^9, 
+   3.811975237597624*^9}, {3.811975276713647*^9, 
+   3.811975276983507*^9}},ExpressionUUID->"80f97d21-a0be-49f7-9f3e-\
+fb8d998029ca"],
+
+Cell[BoxData[
+ RowBox[{
+  SuperscriptBox["v", "2"], "+", 
+  FractionBox[
+   RowBox[{
+    SuperscriptBox["X", "\[Prime]\[Prime]",
+     MultilineFunction->None], "[", "x", "]"}], 
+   RowBox[{"X", "[", "x", "]"}]]}]], "Output",
+ CellChangeTimes->{
+  3.8119740837670965`*^9, {3.811974214108924*^9, 3.81197422994621*^9}, 
+   3.811974960720271*^9, 3.8119751109492717`*^9, 3.811975238349037*^9},
+ CellLabel->"Out[26]=",ExpressionUUID->"c17f2451-c9b9-4732-872d-a2e7a492f6d4"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"DSolve", "[", 
+  RowBox[{
+   RowBox[{"weq", "\[Equal]", "0"}], ",", 
+   RowBox[{"X", "[", "x", "]"}], ",", "x"}], "]"}]], "Input",
+ CellChangeTimes->{{3.81197420856402*^9, 3.811974237113269*^9}},
+ CellLabel->"In[27]:=",ExpressionUUID->"b35908dc-1fa8-4aef-982a-4fcf84bb26d6"],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"{", 
+   RowBox[{
+    RowBox[{"X", "[", "x", "]"}], "\[Rule]", 
+    RowBox[{
+     RowBox[{
+      TemplateBox[{"1"},
+       "C"], " ", 
+      RowBox[{"Cos", "[", 
+       RowBox[{"v", " ", "x"}], "]"}]}], "+", 
+     RowBox[{
+      TemplateBox[{"2"},
+       "C"], " ", 
+      RowBox[{"Sin", "[", 
+       RowBox[{"v", " ", "x"}], "]"}]}]}]}], "}"}], "}"}]], "Output",
+ CellChangeTimes->{{3.8119742185527377`*^9, 3.8119742373585796`*^9}, 
+   3.811974979543181*^9, 3.81197511231584*^9, 3.811975239763444*^9},
+ CellLabel->"Out[27]=",ExpressionUUID->"b38e796f-7e2c-4d63-a7c1-d16a1ce4f5b6"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[StyleBox["Lorentzian versus Riemannian.",
+ FontColor->RGBColor[
+  0.7764705882352941, 0., 0.7764705882352941]]], "Subsubsection",
+ CellChangeTimes->{{3.811970166494561*^9, 3.8119701726135197`*^9}, {
+  3.8119702133981543`*^9, 3.811970249061366*^9}, {3.811974261263875*^9, 
+  3.8119743032389536`*^9}},ExpressionUUID->"5120552f-77fa-44b7-9e76-\
+e373c492ec85"],
+
+Cell["\<\
+It assumes a Lorentzian spacetime. For a Riemannian spacetime, just specify \
+it by setting the option \[OpenCurlyDoubleQuote]Lorentzian\
+\[CloseCurlyDoubleQuote] to 1. \
+\>", "Text",
+ CellChangeTimes->{{3.8119728740102606`*^9, 3.811972892272911*^9}, {
+  3.8119730268194532`*^9, 3.811973047571316*^9}, {3.811973090876501*^9, 
+  3.8119731555202217`*^9}, {3.811974007513054*^9, 3.811974017152553*^9}, {
+  3.8119752606390076`*^9, 
+  3.8119752870778856`*^9}},ExpressionUUID->"e68541f0-d271-4d12-96a1-\
+5f260f296521"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"weq", "=", 
+  RowBox[{
+   RowBox[{"ScalarWaveEquation", "[", 
+    RowBox[{
+     RowBox[{"\"\<metric\>\"", "\[Rule]", 
+      RowBox[{"DiagonalMatrix", "[", 
+       RowBox[{"{", 
+        RowBox[{"1", ",", "1", ",", "1", ",", "1"}], "}"}], "]"}]}], " ", ",",
+      " ", 
+     RowBox[{"\"\<coordinates\>\"", "\[Rule]", 
+      RowBox[{"{", 
+       RowBox[{"t", ",", "x", ",", "y", ",", "z"}], "}"}]}], ",", 
+     RowBox[{"\"\<ansatz\>\"", "\[Rule]", 
+      RowBox[{"{", 
+       RowBox[{
+        SuperscriptBox["\[ExponentialE]", 
+         RowBox[{
+          RowBox[{"-", "\[ImaginaryI]"}], " ", "\[Omega]", " ", "t"}]], ",", 
+        RowBox[{"X", "[", "x", "]"}], ",", 
+        RowBox[{"Y", "[", "y", "]"}], ",", 
+        RowBox[{"Z", "[", "z", "]"}]}], "}"}]}], ",", 
+     RowBox[{"\"\<Lorentzian\>\"", "\[Rule]", "1"}]}], "]"}], "/.", 
+   RowBox[{"m", "\[Rule]", "0"}]}]}]], "Input",
+ CellChangeTimes->{{3.811973166849699*^9, 3.8119731862902193`*^9}, {
+   3.811973274881627*^9, 3.8119732757618847`*^9}, {3.8119734557529774`*^9, 
+   3.8119734611124945`*^9}, {3.811973549514805*^9, 3.8119735767858686`*^9}, {
+   3.8119737826447964`*^9, 3.8119738031769714`*^9}, {3.8119739393152447`*^9, 
+   3.811973951917584*^9}, {3.8119740268686547`*^9, 3.8119740299378476`*^9}, {
+   3.811974228139526*^9, 3.8119742293757677`*^9}, 3.81197496011028*^9, {
+   3.8119751094568386`*^9, 3.8119751097676105`*^9}, {3.8119752348963394`*^9, 
+   3.811975237597624*^9}, {3.811975276713647*^9, 3.811975276983507*^9}, {
+   3.811975323919388*^9, 3.8119753804140615`*^9}},
+ CellLabel->"In[31]:=",ExpressionUUID->"1447f64f-2520-4b61-9384-38fc20a1b1b7"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"-", 
+   SuperscriptBox["\[Omega]", "2"]}], "+", 
+  FractionBox[
+   RowBox[{
+    SuperscriptBox["X", "\[Prime]\[Prime]",
+     MultilineFunction->None], "[", "x", "]"}], 
+   RowBox[{"X", "[", "x", "]"}]], "+", 
+  FractionBox[
+   RowBox[{
+    SuperscriptBox["Y", "\[Prime]\[Prime]",
+     MultilineFunction->None], "[", "y", "]"}], 
+   RowBox[{"Y", "[", "y", "]"}]], "+", 
+  FractionBox[
+   RowBox[{
+    SuperscriptBox["Z", "\[Prime]\[Prime]",
+     MultilineFunction->None], "[", "z", "]"}], 
+   RowBox[{"Z", "[", "z", "]"}]]}]], "Output",
+ CellChangeTimes->{{3.8119753552949224`*^9, 3.811975381468295*^9}},
+ CellLabel->"Out[31]=",ExpressionUUID->"32805dfc-59c8-4a3f-81ae-06fc2e84a497"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[TextData[StyleBox["A General metric, fixed dimension.",
+ FontColor->RGBColor[
+  0.49411764705882355`, 0.13333333333333333`, 
+   0.07058823529411765]]], "Section",
+ CellChangeTimes->{{3.8119699331260815`*^9, 3.811970020216326*^9}, {
+   3.811970074069496*^9, 3.8119700773024535`*^9}, {3.8119701808606973`*^9, 
+   3.81197018950849*^9}, {3.8119725007500496`*^9, 3.811972510171292*^9}, {
+   3.811972809033696*^9, 3.8119728533628626`*^9}, {3.811972989033469*^9, 
+   3.8119729960012045`*^9}, 3.8119730746203375`*^9, {3.8119757015673122`*^9, 
+   3.8119757048375025`*^9}, {3.8119759235406914`*^9, 
+   3.811975925804783*^9}},ExpressionUUID->"cd60ee3f-f37a-4380-8fa6-\
+cabb31231fa1"],
+
+Cell["\<\
+For a general metric,  but a fixed spacetime dimension, it just prints the \
+definition of the wave equations in expanded form:\
+\>", "Text",
+ CellChangeTimes->{{3.8119760958352346`*^9, 
+  3.811976218491078*^9}},ExpressionUUID->"654adc93-c034-4589-af32-\
+399d5ff89914"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"general2", "=", 
+   RowBox[{"(", GridBox[{
+      {
+       RowBox[{
+        RowBox[{
+         RowBox[{"metric", "[", "1", "]"}], "[", "1", "]"}], "[", 
+        RowBox[{"x1", ",", "x2"}], "]"}], 
+       RowBox[{
+        RowBox[{
+         RowBox[{"metric", "[", "1", "]"}], "[", "2", "]"}], "[", 
+        RowBox[{"x1", ",", "x2"}], "]"}]},
+      {
+       RowBox[{
+        RowBox[{
+         RowBox[{"metric", "[", "2", "]"}], "[", "1", "]"}], "[", 
+        RowBox[{"x1", ",", "x2"}], "]"}], 
+       RowBox[{
+        RowBox[{
+         RowBox[{"metric", "[", "2", "]"}], "[", "2", "]"}], "[", 
+        RowBox[{"x1", ",", "x2"}], "]"}]}
+     }], ")"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.811976001280454*^9, 3.811976019589985*^9}},
+ CellLabel->"In[43]:=",ExpressionUUID->"32577245-d7c7-4cd1-a6e6-6c9348b06e8d"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"ScalarWaveEquation", "[", 
+  RowBox[{
+   RowBox[{"\"\<metric\>\"", "\[Rule]", "general2"}], " ", ",", " ", 
+   RowBox[{"\"\<coordinates\>\"", "\[Rule]", 
+    RowBox[{"{", 
+     RowBox[{"x1", ",", "x2"}], "}"}]}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.8119760273330746`*^9, 3.8119760578142753`*^9}},
+ CellLabel->"In[44]:=",ExpressionUUID->"5ff75e07-e939-4a56-ac52-b8f8431fc271"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(", 
+   RowBox[{
+    RowBox[{
+     RowBox[{
+      SuperscriptBox["\[CapitalPsi]", 
+       TagBox[
+        RowBox[{"(", 
+         RowBox[{"{", 
+          RowBox[{"0", ",", "1"}], "}"}], ")"}],
+        Derivative],
+       MultilineFunction->None], "[", 
+      RowBox[{"{", 
+       RowBox[{"x1", ",", "x2"}], "}"}], "]"}], " ", 
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"-", 
+        RowBox[{
+         SuperscriptBox[
+          RowBox[{
+           RowBox[{"metric", "[", "1", "]"}], "[", "1", "]"}], 
+          TagBox[
+           RowBox[{"(", 
+            RowBox[{"0", ",", "1"}], ")"}],
+           Derivative],
+          MultilineFunction->None], "[", 
+         RowBox[{"x1", ",", "x2"}], "]"}]}], "+", 
+       RowBox[{
+        SuperscriptBox[
+         RowBox[{
+          RowBox[{"metric", "[", "1", "]"}], "[", "2", "]"}], 
+         TagBox[
+          RowBox[{"(", 
+           RowBox[{"1", ",", "0"}], ")"}],
+          Derivative],
+         MultilineFunction->None], "[", 
+        RowBox[{"x1", ",", "x2"}], "]"}]}], ")"}]}], "+", 
+    RowBox[{
+     RowBox[{
+      SuperscriptBox["\[CapitalPsi]", 
+       TagBox[
+        RowBox[{"(", 
+         RowBox[{"{", 
+          RowBox[{"1", ",", "0"}], "}"}], ")"}],
+        Derivative],
+       MultilineFunction->None], "[", 
+      RowBox[{"{", 
+       RowBox[{"x1", ",", "x2"}], "}"}], "]"}], " ", 
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{
+        SuperscriptBox[
+         RowBox[{
+          RowBox[{"metric", "[", "2", "]"}], "[", "1", "]"}], 
+         TagBox[
+          RowBox[{"(", 
+           RowBox[{"0", ",", "1"}], ")"}],
+          Derivative],
+         MultilineFunction->None], "[", 
+        RowBox[{"x1", ",", "x2"}], "]"}], "-", 
+       RowBox[{
+        SuperscriptBox[
+         RowBox[{
+          RowBox[{"metric", "[", "2", "]"}], "[", "2", "]"}], 
+         TagBox[
+          RowBox[{"(", 
+           RowBox[{"1", ",", "0"}], ")"}],
+          Derivative],
+         MultilineFunction->None], "[", 
+        RowBox[{"x1", ",", "x2"}], "]"}]}], ")"}]}], "-", 
+    RowBox[{
+     RowBox[{
+      SuperscriptBox["\[CapitalPsi]", 
+       TagBox[
+        RowBox[{"(", 
+         RowBox[{"{", 
+          RowBox[{"0", ",", "2"}], "}"}], ")"}],
+        Derivative],
+       MultilineFunction->None], "[", 
+      RowBox[{"{", 
+       RowBox[{"x1", ",", "x2"}], "}"}], "]"}], " ", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"metric", "[", "1", "]"}], "[", "1", "]"}], "[", 
+      RowBox[{"x1", ",", "x2"}], "]"}]}], "+", 
+    RowBox[{
+     RowBox[{
+      SuperscriptBox["\[CapitalPsi]", 
+       TagBox[
+        RowBox[{"(", 
+         RowBox[{"{", 
+          RowBox[{"1", ",", "1"}], "}"}], ")"}],
+        Derivative],
+       MultilineFunction->None], "[", 
+      RowBox[{"{", 
+       RowBox[{"x1", ",", "x2"}], "}"}], "]"}], " ", 
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{
+        RowBox[{
+         RowBox[{"metric", "[", "1", "]"}], "[", "2", "]"}], "[", 
+        RowBox[{"x1", ",", "x2"}], "]"}], "+", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"metric", "[", "2", "]"}], "[", "1", "]"}], "[", 
+        RowBox[{"x1", ",", "x2"}], "]"}]}], ")"}]}], "-", 
+    RowBox[{
+     RowBox[{
+      SuperscriptBox["\[CapitalPsi]", 
+       TagBox[
+        RowBox[{"(", 
+         RowBox[{"{", 
+          RowBox[{"2", ",", "0"}], "}"}], ")"}],
+        Derivative],
+       MultilineFunction->None], "[", 
+      RowBox[{"{", 
+       RowBox[{"x1", ",", "x2"}], "}"}], "]"}], " ", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"metric", "[", "2", "]"}], "[", "2", "]"}], "[", 
+      RowBox[{"x1", ",", "x2"}], "]"}]}], "+", 
+    RowBox[{
+     SuperscriptBox["m", "2"], " ", 
+     RowBox[{"\[CapitalPsi]", "[", 
+      RowBox[{"{", 
+       RowBox[{"x1", ",", "x2"}], "}"}], "]"}], " ", 
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"-", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"metric", "[", "1", "]"}], "[", "2", "]"}], "[", 
+          RowBox[{"x1", ",", "x2"}], "]"}]}], " ", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"metric", "[", "2", "]"}], "[", "1", "]"}], "[", 
+         RowBox[{"x1", ",", "x2"}], "]"}]}], "+", 
+       RowBox[{
+        RowBox[{
+         RowBox[{
+          RowBox[{"metric", "[", "1", "]"}], "[", "1", "]"}], "[", 
+         RowBox[{"x1", ",", "x2"}], "]"}], " ", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"metric", "[", "2", "]"}], "[", "2", "]"}], "[", 
+         RowBox[{"x1", ",", "x2"}], "]"}]}]}], ")"}]}]}], ")"}], "/", 
+  RowBox[{"(", 
+   RowBox[{
+    RowBox[{
+     RowBox[{
+      RowBox[{
+       RowBox[{"metric", "[", "1", "]"}], "[", "2", "]"}], "[", 
+      RowBox[{"x1", ",", "x2"}], "]"}], " ", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"metric", "[", "2", "]"}], "[", "1", "]"}], "[", 
+      RowBox[{"x1", ",", "x2"}], "]"}]}], "-", 
+    RowBox[{
+     RowBox[{
+      RowBox[{
+       RowBox[{"metric", "[", "1", "]"}], "[", "1", "]"}], "[", 
+      RowBox[{"x1", ",", "x2"}], "]"}], " ", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"metric", "[", "2", "]"}], "[", "2", "]"}], "[", 
+      RowBox[{"x1", ",", "x2"}], "]"}]}]}], ")"}]}]], "Output",
+ CellChangeTimes->{{3.8119760319319167`*^9, 3.8119760722603636`*^9}},
+ CellLabel->"Out[44]=",ExpressionUUID->"080ce576-e274-4462-91e4-9f454b21b8a1"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{1428., 751.5},
+WindowMargins->{{Automatic, 1152}, {Automatic, 0}},
+FrontEndVersion->"12.1 for Microsoft Windows (64-bit) (June 19, 2020)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"11637ac8-f7e9-4c3f-9c74-6ca33b7d75f0"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 178, 2, 28, "Input",ExpressionUUID->"b73ff2ba-a12a-4d5f-9b19-02969dca8e19"],
+Cell[CellGroupData[{
+Cell[761, 26, 642, 10, 97, "Title",ExpressionUUID->"ac30e820-0294-4cd7-9b48-0cf6897ac71f"],
+Cell[1406, 38, 413, 7, 32, "Author",ExpressionUUID->"2736abb2-a875-41d4-be90-7299de9e1855"],
+Cell[1822, 47, 854, 16, 34, "Text",ExpressionUUID->"96bd5ab5-ab6b-455e-bdcf-890ee9b5a8b5"],
+Cell[2679, 65, 1042, 26, 51, "DisplayFormulaNumbered",ExpressionUUID->"6d67255a-d232-402f-a6f1-80fb5834af95"],
+Cell[3724, 93, 281, 6, 34, "Text",ExpressionUUID->"76d98c0d-0d84-4e85-96c2-763e24dee851"],
+Cell[4008, 101, 262, 5, 28, "Input",ExpressionUUID->"92b7f799-d19c-4fa6-8846-af311df91674"],
+Cell[CellGroupData[{
+Cell[4295, 110, 369, 7, 28, "Input",ExpressionUUID->"db9235ca-cfea-4626-ba92-ae813f4b153b"],
+Cell[4667, 119, 39102, 854, 157, "Output",ExpressionUUID->"eaba055b-5d93-4ea4-a51e-2ebd6382161a"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[43806, 978, 423, 8, 66, "Section",ExpressionUUID->"55464637-aa7d-4d7a-924a-9974d469d9a8"],
+Cell[CellGroupData[{
+Cell[44254, 990, 271, 5, 45, "Subsubsection",ExpressionUUID->"6baf5bd3-378e-4d25-802a-0b6cab5c1616"],
+Cell[44528, 997, 256, 6, 34, "Text",ExpressionUUID->"7e9546e8-ce3a-4826-8d8f-533281010c05"],
+Cell[CellGroupData[{
+Cell[44809, 1007, 256, 4, 28, "Input",ExpressionUUID->"06c8ca99-3704-4c6e-999b-ccf8482d3234"],
+Cell[45068, 1013, 9352, 225, 117, "Output",ExpressionUUID->"e40cf794-4c39-4496-aa2f-9354e24e1546"]
+}, Open  ]],
+Cell[54435, 1241, 156, 3, 34, "Text",ExpressionUUID->"ee394dc0-9609-43f1-8980-b78e7c0c20d0"],
+Cell[CellGroupData[{
+Cell[54616, 1248, 1025, 21, 33, "Input",ExpressionUUID->"f53db22d-5f18-4afc-b625-d4908c1e6a40"],
+Cell[55644, 1271, 1953, 48, 53, "Output",ExpressionUUID->"bd107d44-2fdf-466b-8000-1cbe42f36e46"]
+}, Open  ]],
+Cell[57612, 1322, 322, 7, 34, "Text",ExpressionUUID->"a9bd6ada-192c-468c-a31d-e766151e98a5"],
+Cell[CellGroupData[{
+Cell[57959, 1333, 672, 16, 33, "Input",ExpressionUUID->"0c3d351d-9951-484b-850c-ce7bcafd6623"],
+Cell[58634, 1351, 17860, 454, 234, "Output",ExpressionUUID->"caf6517f-0d3a-47e7-8459-82e09396cfe1"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[76543, 1811, 337, 6, 45, "Subsubsection",ExpressionUUID->"b455d6bf-146a-4c23-9e50-b145175e592c"],
+Cell[CellGroupData[{
+Cell[76905, 1821, 1384, 40, 44, "Input",ExpressionUUID->"bcdc8425-9e95-4297-859e-a2c30e99b5f9"],
+Cell[78292, 1863, 3522, 113, 57, "Output",ExpressionUUID->"b3a2ad0c-1097-47f1-a479-cf56a2a824ce"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[81863, 1982, 319, 6, 45, "Subsubsection",ExpressionUUID->"3151f513-9e6a-44a8-a089-b73c4f240f05"],
+Cell[CellGroupData[{
+Cell[82207, 1992, 1332, 33, 47, "Input",ExpressionUUID->"f8ea01f3-9ece-4769-88b0-9ab56561c2f7"],
+Cell[83542, 2027, 2383, 69, 54, "Output",ExpressionUUID->"5f3a3717-a4df-4bb1-bd34-ce48838274ea"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[85986, 2103, 592, 10, 66, "Section",ExpressionUUID->"e2fb7e8d-596b-40e4-8729-c6b66b7d39d2"],
+Cell[CellGroupData[{
+Cell[86603, 2117, 225, 3, 28, "Input",ExpressionUUID->"cee8dfe0-8221-401e-96f3-e4a3b3d1d492"],
+Cell[86831, 2122, 777, 19, 32, "Output",ExpressionUUID->"6b524644-1cb3-4618-8483-1341aa2d7e46"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[87645, 2146, 350, 6, 45, "Subsubsection",ExpressionUUID->"9776e87f-f443-407f-8709-22b47f7944b0"],
+Cell[87998, 2154, 278, 4, 34, "Text",ExpressionUUID->"6cedc09f-6b41-453f-86f7-f23cf893a6e0"],
+Cell[CellGroupData[{
+Cell[88301, 2162, 262, 5, 28, "Input",ExpressionUUID->"58911ab8-7036-4531-a413-7e0d3205ded4"],
+Cell[88566, 2169, 2454, 79, 55, "Output",ExpressionUUID->"965986f5-0617-483b-ae27-8c3629b026ef"]
+}, Open  ]],
+Cell[91035, 2251, 477, 9, 56, "Text",ExpressionUUID->"01457409-7a85-401e-be08-7913f4e863a3"],
+Cell[CellGroupData[{
+Cell[91537, 2264, 697, 18, 33, "Input",ExpressionUUID->"4c7d61e4-cc4c-4497-9ee4-97b2dca5fe94"],
+Cell[92237, 2284, 1647, 53, 54, "Output",ExpressionUUID->"7628f3c6-8524-4e25-981c-2992ded0768a"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[93933, 2343, 355, 6, 45, "Subsubsection",ExpressionUUID->"5e8aff79-3396-43df-8d31-ba9d00b7e64c"],
+Cell[94291, 2351, 458, 10, 56, "Text",ExpressionUUID->"6dcb0e6e-f501-4b1b-af2d-802269886877"],
+Cell[CellGroupData[{
+Cell[94774, 2365, 644, 15, 28, "Input",ExpressionUUID->"acb647e3-400a-4dac-bbaa-5de2eda155a9"],
+Cell[95421, 2382, 2022, 65, 53, "Output",ExpressionUUID->"d344e226-d266-4052-b17a-b5485ff4a207"]
+}, Open  ]],
+Cell[97458, 2450, 176, 3, 34, "Text",ExpressionUUID->"cd96fb4b-83b4-4ee2-9622-245ea37be5f1"],
+Cell[CellGroupData[{
+Cell[97659, 2457, 1393, 30, 33, "Input",ExpressionUUID->"80f97d21-a0be-49f7-9f3e-fb8d998029ca"],
+Cell[99055, 2489, 467, 11, 51, "Output",ExpressionUUID->"c17f2451-c9b9-4732-872d-a2e7a492f6d4"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[99559, 2505, 298, 6, 28, "Input",ExpressionUUID->"b35908dc-1fa8-4aef-982a-4fcf84bb26d6"],
+Cell[99860, 2513, 620, 18, 32, "Output",ExpressionUUID->"b38e796f-7e2c-4d63-a7c1-d16a1ce4f5b6"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[100529, 2537, 370, 6, 45, "Subsubsection",ExpressionUUID->"5120552f-77fa-44b7-9e76-e373c492ec85"],
+Cell[100902, 2545, 522, 10, 34, "Text",ExpressionUUID->"e68541f0-d271-4d12-96a1-5f260f296521"],
+Cell[CellGroupData[{
+Cell[101449, 2559, 1638, 33, 33, "Input",ExpressionUUID->"1447f64f-2520-4b61-9384-38fc20a1b1b7"],
+Cell[103090, 2594, 717, 20, 51, "Output",ExpressionUUID->"32805dfc-59c8-4a3f-81ae-06fc2e84a497"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[103868, 2621, 677, 11, 66, "Section",ExpressionUUID->"cd60ee3f-f37a-4380-8fa6-cabb31231fa1"],
+Cell[104548, 2634, 279, 6, 34, "Text",ExpressionUUID->"654adc93-c034-4589-af32-399d5ff89914"],
+Cell[104830, 2642, 844, 24, 44, "Input",ExpressionUUID->"32577245-d7c7-4cd1-a6e6-6c9348b06e8d"],
+Cell[CellGroupData[{
+Cell[105699, 2670, 404, 8, 28, "Input",ExpressionUUID->"5ff75e07-e939-4a56-ac52-b8f8431fc271"],
+Cell[106106, 2680, 5281, 169, 101, "Output",ExpressionUUID->"080ce576-e274-4462-91e4-9f454b21b8a1"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
