@@ -42,7 +42,7 @@ g=If[OptionValue["metric"]=!={},OptionValue["metric"],If[OptionValue["diagonal_m
 
 n=Length[g];
 ginv=Inverse[g];
-moduleDet = OptionValue["Lorentzian"]*Det[g];
+moduleDet = Sqrt[OptionValue["Lorentzian"]*Det[g]];
 coordinates=Table[OptionValue[ "coordinates"][[i]],{i,1,n}];
 If[OptionValue["ansatz"]==={},ansatz=1;Sol=\[CapitalPsi][coordinates],ansatz=Product[OptionValue["ansatz"][[i]],{i,1,Length[OptionValue["ansatz"]]} ];Sol=ansatz];
 If[g-DiagonalMatrix[Diagonal[g]]=!=Table[0,{i,1,n},{j,1,n}], 
@@ -52,9 +52,6 @@ waveEq= FullSimplify[ 1/ansatz*(1/moduleDet Sum[Sum[D[moduleDet*ginv[[\[Mu],\[Nu
 Collect[waveEq,OptionValue["ansatz"]]
 
 );
-
-
-Null
 
 
 (*End[];*)
